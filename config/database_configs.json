@@ -1,0 +1,97 @@
+{
+  "database_config": {
+    "version": "1.0",
+    "description": "Multi-source database configuration for different clients",
+    "sources": {
+      "client_alpha": {
+        "client_name": "Alpha Corp",
+        "db_type": "mysql",
+        "connection_string": "mysql://root:password1@host1:3306/alpha_db?charset=utf8mb4&parseTime=True&loc=Local",
+        "connection_details": {
+          "host": "host1",
+          "port": 3306,
+          "username": "root",
+          "password": "password1",
+          "database": "alpha_db",
+          "ssl_mode": "preferred",
+          "charset": "utf8mb4"
+        },
+        "pool_settings": {
+          "max_connections": 10,
+          "idle_timeout": 300,
+          "connection_timeout": 30
+        }
+      },
+      "client_beta": {
+        "client_name": "Beta Industries",
+        "db_type": "postgresql",
+        "connection_string": "postgresql://postgres:pwd3@host3:5432/beta_db?sslmode=require",
+        "connection_details": {
+          "host": "host3",
+          "port": 5432,
+          "username": "postgres",
+          "password": "pwd3",
+          "database": "beta_db",
+          "ssl_mode": "require",
+          "schema": "public"
+        },
+        "pool_settings": {
+          "max_connections": 15,
+          "idle_timeout": 600,
+          "connection_timeout": 30
+        }
+      },
+      "client_gamma": {
+        "client_name": "Gamma Solutions",
+        "db_type": "mssql",
+        "connection_string": "mssql://sa:StrongPassword123@host4:1433/gamma_db?encrypt=true&trustServerCertificate=true",
+        "connection_details": {
+          "host": "host4",
+          "port": 1433,
+          "username": "sa",
+          "password": "StrongPassword123",
+          "database": "gamma_db",
+          "encrypt": true,
+          "trust_server_certificate": true
+        },
+        "pool_settings": {
+          "max_connections": 8,
+          "idle_timeout": 300,
+          "connection_timeout": 30
+        }
+      },
+      "target_warehouse": {
+        "name": "Data Warehouse",
+        "db_type": "postgresql",
+        "connection_string": "postgresql://warehouse_user:warehouse_pwd@warehouse_host:5432/data_warehouse?sslmode=require",
+        "connection_details": {
+          "host": "warehouse_host",
+          "port": 5432,
+          "username": "warehouse_user",
+          "password": "warehouse_pwd",
+          "database": "data_warehouse",
+          "ssl_mode": "require",
+          "schema": "public"
+        },
+        "pool_settings": {
+          "max_connections": 25,
+          "idle_timeout": 600,
+          "connection_timeout": 30
+        }
+      },
+      "connection_defaults": {
+        "retry_attempts": 3,
+        "retry_delay": 5,
+        "health_check_interval": 60,
+        "log_queries": false,
+        "query_timeout": 300
+      },
+      "security": {
+        "encrypt_passwords": true,
+        "use_ssl": true,
+        "certificate_path": "/etc/ssl/certs/",
+        "key_vault_enabled": false
+      }
+    }
+  }
+}

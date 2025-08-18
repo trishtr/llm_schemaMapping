@@ -1,0 +1,13 @@
+# Database Connector Dependencies
+
+# MySQL Connector
+mysql-connector-python>=8.0.33
+
+# PostgreSQL Connector
+psycopg2-binary>=2.9.5
+
+# Microsoft SQL Server Connector
+pyodbc>=4.0.35
+
+# Additional dependencies
+typing-extensions>=4.0.0 
