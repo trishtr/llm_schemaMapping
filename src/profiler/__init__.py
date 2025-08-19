@@ -1,41 +1,125 @@
 """
 Database Schema Profiler Package
 
-This package provides comprehensive database schema profiling capabilities including:
-- Schema data profiling with parallel processing support
-- Database dialect support for MySQL, PostgreSQL, and MSSQL
-- Field pattern recognition for healthcare and general patterns
-- Structural relationship analysis
-- Data models for organizing schema information
+This package provides a clean, modular architecture for comprehensive database schema profiling.
 
-Main Classes:
-- SchemaDataProfiler: Main profiler class for comprehensive schema analysis
-- DatabaseDialect: Database-specific SQL syntax and operations
-- FieldPatternRecognizer: Advanced pattern recognition for field data
+## Core Architecture
 
-Data Models:
-- ColumnProfile: Information about database columns
-- TableProfile: Information about database tables
-- SchemaProfile: Complete schema information
+### Main Entry Points:
+- UnifiedProfiler: Primary interface for all profiling operations
+- ProfilerConfig: Centralized configuration management
+
+### Core Components:
+- CoreSchemaProfiler: Pure schema profiling logic
+- ProcessingStrategies: Pluggable sequential/parallel execution
+- IncrementalManager: Change detection and state management
+- MetadataExtractor: Database metadata extraction
+
+### Data Models:
+- ColumnProfile, TableProfile, SchemaProfile: Structured schema information
+- ProfilerConfig: Comprehensive configuration system
+
+### Interfaces:
+- Clean abstractions for testability and extensibility
+- Dependency injection for loose coupling
+
+## Usage Examples
+
+### Basic Profiling:
+```python
+from profiler import UnifiedProfiler, ProfilerConfig
+
+config = ProfilerConfig(database_name="my_db")
+profiler = UnifiedProfiler(connector, config)
+schema = profiler.profile_schema()
+```
+
+### Incremental Profiling:
+```python
+config = ProfilerConfig(
+    database_name="my_db",
+    incremental_enabled=True,
+    incremental_state_path="./state.json"
+)
+profiler = UnifiedProfiler(connector, config)
+schema = profiler.profile_schema()  # Automatically incremental
+```
+
+### Custom Configuration:
+```python
+from profiler.config import CommonConfigs
+
+config = CommonConfigs.large_database("my_db", state_path="./state.json")
+profiler = UnifiedProfiler(connector, config)
+```
 """
 
-from .schemaProfiler import SchemaDataProfiler
+# Main entry points (recommended for users)
+from .profiler_factory import UnifiedProfiler, DefaultProfilerFactory
+from .config import ProfilerConfig, CommonConfigs, ConfigBuilder
 
-from .database_dialect import DatabaseDialect
-from .pattern_recognizer import FieldPatternRecognizer
-from .schema_models import (
-    ColumnProfile,
-    TableProfile,
-    SchemaProfile
+# Core interfaces and components
+from .interfaces import ProfilingStrategy, SchemaProfiler, IncrementalProfiler
+from .core_profiler import CoreSchemaProfiler
+from .processing_strategies import (
+    SequentialTableProcessor, 
+    ParallelTableProcessor, 
+    AdaptiveTableProcessor,
+    PerformanceMonitor,
+    ResourceManager
+)
+from .incremental_manager import (
+    IncrementalProfilingManager,
+    FileStateManager,
+    DatabaseChangeDetector,
+    MemoryProfileCache
 )
 
+# Data models and utilities
+from .schema_models import ColumnProfile, TableProfile, SchemaProfile
+from .pattern_recognizer import FieldPatternRecognizer
+from .database_dialect import DatabaseDialect
+from .metadata_extractor import MetadataExtractor
+
+# Legacy compatibility removed - SchemaDataProfiler has been replaced by UnifiedProfiler
+# For migration guidance, see examples/clean_architecture_demo.py
+
 __all__ = [
-    'SchemaDataProfiler',
+    # Main entry points (recommended)
+    'UnifiedProfiler',
+    'ProfilerConfig', 
+    'CommonConfigs',
+    'ConfigBuilder',
+    
+    # Core interfaces
+    'ProfilingStrategy',
+    'SchemaProfiler',
+    'IncrementalProfiler',
+    
+    # Core components
+    'CoreSchemaProfiler',
+    'DefaultProfilerFactory',
+    'SequentialTableProcessor',
+    'ParallelTableProcessor', 
+    'AdaptiveTableProcessor',
+    'IncrementalProfilingManager',
+    'FileStateManager',
+    'DatabaseChangeDetector',
+    'MemoryProfileCache',
+    'PerformanceMonitor',
+    'ResourceManager',
+    
+    # Data models
     'ColumnProfile',
     'TableProfile', 
     'SchemaProfile',
+    
+    # Utilities
     'FieldPatternRecognizer',
-    'DatabaseDialect'
+    'DatabaseDialect',
+    'MetadataExtractor'
 ]
 
-__version__ = "1.0.0" 
+# Version info
+__version__ = "2.0.0"
+__architecture__ = "clean_modular" 

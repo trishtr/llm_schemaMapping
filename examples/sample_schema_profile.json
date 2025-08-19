@@ -1,0 +1,653 @@
+{
+  "database_name": "healthcare_db",
+  "schema_name": "public",
+  "database_type": "postgresql",
+  "profiling_timestamp": "2025-08-19T10:42:52.465327",
+  "total_tables": 3,
+  "total_columns": 14,
+  "tables": [
+    {
+      "name": "users",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "System users and healthcare providers",
+      "estimated_row_count": 15420,
+      "columns": [
+        {
+          "name": "user_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": "Primary key for users table",
+          "ordinal_position": 1,
+          "detected_patterns": [
+            "provider_identifiers.npi"
+          ],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": true,
+          "max_length": 255,
+          "default_value": null,
+          "column_comment": "User email address",
+          "ordinal_position": 2,
+          "detected_patterns": [
+            "contact_information.email"
+          ],
+          "sample_values": [
+            "john.doe@hospital.org",
+            "jane.smith@clinic.com",
+            "bob.wilson@healthcare.net",
+            "alice.brown@medical.org",
+            "charlie.davis@health.com"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "first_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 100,
+          "default_value": null,
+          "column_comment": "User first name",
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            "John",
+            "Jane",
+            "Bob",
+            "Alice",
+            "Charlie"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "last_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": 100,
+          "default_value": null,
+          "column_comment": "User last name",
+          "ordinal_position": 4,
+          "detected_patterns": [],
+          "sample_values": [
+            "Doe",
+            "Smith",
+            "Wilson",
+            "Brown",
+            "Davis"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "department_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": "Reference to department",
+          "ordinal_position": 5,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            101,
+            103,
+            102
+          ],
+          "foreign_key_reference": {
+            "table": "departments",
+            "column": "dept_id",
+            "constraint": "fk_users_department"
+          }
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": "CURRENT_TIMESTAMP",
+          "column_comment": "Record creation timestamp",
+          "ordinal_position": 6,
+          "detected_patterns": [],
+          "sample_values": [
+            "2024-01-15 10:30:00",
+            "2024-01-16 14:22:15",
+            "2024-01-17 09:45:30",
+            "2024-01-18 16:18:45",
+            "2024-01-19 11:55:20"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "user_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "department_id",
+          "referenced_table": "departments",
+          "referenced_column": "dept_id",
+          "constraint_name": "fk_users_department"
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "PRIMARY",
+          "column_name": "user_id",
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_users_email",
+          "column_name": "email",
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_users_last_name",
+          "column_name": "last_name",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_users_department",
+          "column_name": "department_id",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_users_created",
+          "column_name": "created_at",
+          "is_unique": false
+        }
+      ],
+      "sample_data": [
+        {
+          "user_id": 1001,
+          "email": "john.doe@hospital.org",
+          "first_name": "John",
+          "last_name": "Doe",
+          "department_id": 101,
+          "created_at": "2024-01-15 10:30:00"
+        },
+        {
+          "user_id": 1002,
+          "email": "jane.smith@clinic.com",
+          "first_name": "Jane",
+          "last_name": "Smith",
+          "department_id": 102,
+          "created_at": "2024-01-16 14:22:15"
+        },
+        {
+          "user_id": 1003,
+          "email": "bob.wilson@healthcare.net",
+          "first_name": "Bob",
+          "last_name": "Wilson",
+          "department_id": 101,
+          "created_at": "2024-01-17 09:45:30"
+        },
+        {
+          "user_id": 1004,
+          "email": "alice.brown@medical.org",
+          "first_name": "Alice",
+          "last_name": "Brown",
+          "department_id": 103,
+          "created_at": "2024-01-18 16:18:45"
+        },
+        {
+          "user_id": 1005,
+          "email": "charlie.davis@health.com",
+          "first_name": "Charlie",
+          "last_name": "Davis",
+          "department_id": 102,
+          "created_at": "2024-01-19 11:55:20"
+        }
+      ],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": [
+        {
+          "column_name": "department_id",
+          "data_type": "int",
+          "reason": "Matches pattern: .*_id$"
+        }
+      ]
+    },
+    {
+      "name": "departments",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Hospital departments",
+      "estimated_row_count": 25,
+      "columns": [
+        {
+          "name": "dept_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            103,
+            104,
+            105
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "dept_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 200,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [],
+          "sample_values": [
+            "Cardiology",
+            "Neurology",
+            "Emergency",
+            "Pediatrics",
+            "Radiology"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "manager_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1003,
+            1002,
+            1004,
+            null
+          ],
+          "foreign_key_reference": {
+            "table": "users",
+            "column": "user_id",
+            "constraint": "fk_dept_manager"
+          }
+        }
+      ],
+      "primary_keys": [
+        "dept_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "manager_id",
+          "referenced_table": "users",
+          "referenced_column": "user_id",
+          "constraint_name": "fk_dept_manager"
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "PRIMARY",
+          "column_name": "dept_id",
+          "is_unique": true
+        }
+      ],
+      "sample_data": [
+        {
+          "dept_id": 101,
+          "dept_name": "Cardiology",
+          "manager_id": 1001
+        },
+        {
+          "dept_id": 102,
+          "dept_name": "Neurology",
+          "manager_id": 1003
+        },
+        {
+          "dept_id": 103,
+          "dept_name": "Emergency",
+          "manager_id": 1002
+        },
+        {
+          "dept_id": 104,
+          "dept_name": "Pediatrics",
+          "manager_id": 1004
+        },
+        {
+          "dept_id": 105,
+          "dept_name": "Radiology",
+          "manager_id": null
+        }
+      ],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": [
+        {
+          "column_name": "manager_id",
+          "data_type": "int",
+          "reason": "Matches pattern: .*_id$"
+        }
+      ]
+    },
+    {
+      "name": "appointments",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Patient appointments",
+      "estimated_row_count": 45680,
+      "columns": [
+        {
+          "name": "appointment_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            2001,
+            2002,
+            2003,
+            2004,
+            2005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "patient_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [],
+          "sample_values": [
+            3001,
+            3002,
+            3003,
+            3004,
+            3005
+          ],
+          "foreign_key_reference": {
+            "table": "patients",
+            "column": "patient_id",
+            "constraint": "fk_appointments_patient"
+          }
+        },
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1001,
+            1004
+          ],
+          "foreign_key_reference": {
+            "table": "users",
+            "column": "user_id",
+            "constraint": "fk_appointments_provider"
+          }
+        },
+        {
+          "name": "appointment_date",
+          "data_type": "date",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 4,
+          "detected_patterns": [],
+          "sample_values": [
+            "2024-02-15",
+            "2024-02-16",
+            "2024-02-17",
+            "2024-02-18",
+            "2024-02-19"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "status",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 50,
+          "default_value": "scheduled",
+          "column_comment": null,
+          "ordinal_position": 5,
+          "detected_patterns": [],
+          "sample_values": [
+            "scheduled",
+            "completed",
+            "cancelled",
+            "scheduled",
+            "in_progress"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "appointment_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "patient_id",
+          "referenced_table": "patients",
+          "referenced_column": "patient_id",
+          "constraint_name": "fk_appointments_patient"
+        },
+        {
+          "column_name": "provider_id",
+          "referenced_table": "users",
+          "referenced_column": "user_id",
+          "constraint_name": "fk_appointments_provider"
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "PRIMARY",
+          "column_name": "appointment_id",
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_appointments_patient",
+          "column_name": "patient_id",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_appointments_provider",
+          "column_name": "provider_id",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_appointments_date",
+          "column_name": "appointment_date",
+          "is_unique": false
+        }
+      ],
+      "sample_data": [
+        {
+          "appointment_id": 2001,
+          "patient_id": 3001,
+          "provider_id": 1001,
+          "appointment_date": "2024-02-15",
+          "status": "scheduled"
+        },
+        {
+          "appointment_id": 2002,
+          "patient_id": 3002,
+          "provider_id": 1002,
+          "appointment_date": "2024-02-16",
+          "status": "completed"
+        },
+        {
+          "appointment_id": 2003,
+          "patient_id": 3003,
+          "provider_id": 1003,
+          "appointment_date": "2024-02-17",
+          "status": "cancelled"
+        },
+        {
+          "appointment_id": 2004,
+          "patient_id": 3004,
+          "provider_id": 1001,
+          "appointment_date": "2024-02-18",
+          "status": "scheduled"
+        },
+        {
+          "appointment_id": 2005,
+          "patient_id": 3005,
+          "provider_id": 1004,
+          "appointment_date": "2024-02-19",
+          "status": "in_progress"
+        }
+      ],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": [
+        {
+          "column_name": "patient_id",
+          "data_type": "int",
+          "reason": "Matches pattern: .*_id$"
+        },
+        {
+          "column_name": "provider_id",
+          "data_type": "int",
+          "reason": "Matches pattern: .*_id$"
+        }
+      ]
+    }
+  ],
+  "cross_table_relationships": [
+    {
+      "type": "foreign_key",
+      "from_table": "users",
+      "from_column": "department_id",
+      "to_table": "departments",
+      "to_column": "dept_id",
+      "constraint_name": "fk_users_department"
+    },
+    {
+      "type": "foreign_key",
+      "from_table": "departments",
+      "from_column": "manager_id",
+      "to_table": "users",
+      "to_column": "user_id",
+      "constraint_name": "fk_dept_manager"
+    },
+    {
+      "type": "foreign_key",
+      "from_table": "appointments",
+      "from_column": "patient_id",
+      "to_table": "patients",
+      "to_column": "patient_id",
+      "constraint_name": "fk_appointments_patient"
+    },
+    {
+      "type": "foreign_key",
+      "from_table": "appointments",
+      "from_column": "provider_id",
+      "to_table": "users",
+      "to_column": "user_id",
+      "constraint_name": "fk_appointments_provider"
+    }
+  ],
+  "potential_relationships": [
+    {
+      "type": "potential_foreign_key",
+      "from_table": "users",
+      "from_column": "department_id",
+      "to_table": "departments",
+      "to_column": "dept_id",
+      "reason": "Column name pattern and data type match",
+      "confidence": "high"
+    },
+    {
+      "type": "potential_foreign_key",
+      "from_table": "appointments",
+      "from_column": "patient_id",
+      "to_table": "patients",
+      "to_column": "patient_id",
+      "reason": "Column name pattern and data type match",
+      "confidence": "high"
+    }
+  ],
+  "pattern_summary": {
+    "provider_identifiers.npi": 1,
+    "contact_information.email": 1
+  }
+}

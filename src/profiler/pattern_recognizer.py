@@ -12,7 +12,8 @@ Classes:
 import json
 import re
 import logging
-from typing import Dict, Any, List, Optional, Set
+import threading
+from typing import Dict, Any, List, Optional, Set, Union, Tuple
 from pathlib import Path
 
 
@@ -25,7 +26,7 @@ class FieldPatternRecognizer:
     contact information, and other domain-specific data formats.
     """
     
-    def __init__(self, patterns_config_path: str = None):
+    def __init__(self, patterns_config_path: Optional[Union[str, Path]] = None):
         """
         Initialize the pattern recognizer.
         
@@ -34,60 +35,72 @@ class FieldPatternRecognizer:
                                  If None, uses default config/field_patterns.json
         """
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.patterns = {}
-        self.compiled_patterns = {}
+        self.patterns: Dict[str, Dict[str, Any]] = {}
+        self.compiled_patterns: Dict[str, re.Pattern[str]] = {}
+        
+        # Thread safety lock for pattern reloading
+        self._patterns_lock = threading.RLock()
         
         # Set default config path if not provided
         if patterns_config_path is None:
             patterns_config_path = Path(__file__).parent.parent.parent / "config" / "field_patterns.json"
         
-        self.patterns_config_path = patterns_config_path
+        self.patterns_config_path = Path(patterns_config_path)
         self._load_patterns()
     
-    def _load_patterns(self):
-        """Load pattern definitions from the configuration file."""
-        try:
-            if not Path(self.patterns_config_path).exists():
-                self.logger.warning(f"Pattern config file not found: {self.patterns_config_path}")
+    def _load_patterns(self) -> None:
+        """Load pattern definitions from the configuration file (thread-safe)."""
+        with self._patterns_lock:
+            try:
+                if not self.patterns_config_path.exists():
+                    self.logger.warning(f"Pattern config file not found: {self.patterns_config_path}")
+                    self.patterns = {}
+                    self.compiled_patterns = {}
+                    return
+                
+                with open(self.patterns_config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                
+                # Extract patterns from nested structure
+                new_patterns: Dict[str, Dict[str, Any]] = {}
+                if 'healthcare_provider_patterns' in config:
+                    hcp_patterns = config['healthcare_provider_patterns']
+                    if 'pattern_categories' in hcp_patterns:
+                        for category_name, category_data in hcp_patterns['pattern_categories'].items():
+                            if 'patterns' in category_data:
+                                for pattern_name, pattern_info in category_data['patterns'].items():
+                                    pattern_key = f"{category_name}.{pattern_name}"
+                                    new_patterns[pattern_key] = pattern_info
+                
+                # Atomic update of patterns
+                self.patterns = new_patterns
+                
+                # Compile regex patterns for better performance
+                self._compile_patterns()
+                
+                self.logger.info(f"Loaded {len(self.patterns)} patterns from {self.patterns_config_path}")
+                
+            except Exception as e:
+                self.logger.error(f"Error loading patterns from {self.patterns_config_path}: {e}")
                 self.patterns = {}
-                return
-            
-            with open(self.patterns_config_path, 'r', encoding='utf-8') as f:
-                config = json.load(f)
-            
-            # Extract patterns from nested structure
-            self.patterns = {}
-            if 'healthcare_provider_patterns' in config:
-                hcp_patterns = config['healthcare_provider_patterns']
-                if 'pattern_categories' in hcp_patterns:
-                    for category_name, category_data in hcp_patterns['pattern_categories'].items():
-                        if 'patterns' in category_data:
-                            for pattern_name, pattern_info in category_data['patterns'].items():
-                                pattern_key = f"{category_name}.{pattern_name}"
-                                self.patterns[pattern_key] = pattern_info
-            
-            # Compile regex patterns for better performance
-            self._compile_patterns()
-            
-            self.logger.info(f"Loaded {len(self.patterns)} patterns from {self.patterns_config_path}")
-            
-        except Exception as e:
-            self.logger.error(f"Error loading patterns from {self.patterns_config_path}: {e}")
-            self.patterns = {}
+                self.compiled_patterns = {}
     
-    def _compile_patterns(self):
-        """Compile regex patterns for better performance."""
-        self.compiled_patterns = {}
+    def _compile_patterns(self) -> None:
+        """Compile regex patterns for better performance (must be called within lock)."""
+        new_compiled_patterns: Dict[str, re.Pattern[str]] = {}
         for pattern_key, pattern_info in self.patterns.items():
             try:
                 if 'regex' in pattern_info:
-                    self.compiled_patterns[pattern_key] = re.compile(pattern_info['regex'])
+                    new_compiled_patterns[pattern_key] = re.compile(pattern_info['regex'])
             except re.error as e:
                 self.logger.warning(f"Invalid regex pattern for {pattern_key}: {e}")
+        
+        # Atomic update of compiled patterns
+        self.compiled_patterns = new_compiled_patterns
     
-    def detect_patterns(self, values: List[Any], field_name: str = None) -> List[str]:
+    def detect_patterns(self, values: List[Any], field_name: Optional[str] = None) -> List[str]:
         """
-        Detect patterns in a list of field values.
+        Detect patterns in a list of field values (thread-safe).
         
         Args:
             values: List of values to analyze for patterns
@@ -96,13 +109,20 @@ class FieldPatternRecognizer:
         Returns:
             List of detected pattern keys
         """
-        if not values or not self.compiled_patterns:
+        if not values:
             return []
         
-        detected_patterns = set()
+        # Create thread-safe snapshots of patterns
+        with self._patterns_lock:
+            if not self.compiled_patterns:
+                return []
+            compiled_patterns_snapshot = self.compiled_patterns.copy()
+            patterns_snapshot = self.patterns.copy()
+        
+        detected_patterns: Set[str] = set()
         
         # Convert values to strings and filter out None/empty values
-        string_values = []
+        string_values: List[str] = []
         for value in values:
             if value is not None:
                 str_value = str(value).strip()
@@ -113,8 +133,8 @@ class FieldPatternRecognizer:
             return []
         
         # Test each pattern against the values
-        for pattern_key, compiled_regex in self.compiled_patterns.items():
-            pattern_info = self.patterns[pattern_key]
+        for pattern_key, compiled_regex in compiled_patterns_snapshot.items():
+            pattern_info = patterns_snapshot.get(pattern_key, {})
             
             # Check if field name matches expected field names
             if field_name and 'field_names' in pattern_info:
@@ -237,9 +257,9 @@ class FieldPatternRecognizer:
                 categories.add(category)
         return categories
     
-    def reload_patterns(self):
+    def reload_patterns(self) -> None:
         """
-        Reload patterns from the configuration file.
+        Reload patterns from the configuration file (thread-safe).
         
         Useful for updating patterns without restarting the application.
         """
@@ -268,7 +288,7 @@ class FieldPatternRecognizer:
             "config_path": str(self.patterns_config_path)
         }
     
-    def detect_patterns_with_confidence(self, values: List[Any], field_name: str = None) -> List[Dict[str, Any]]:
+    def detect_patterns_with_confidence(self, values: List[Any], field_name: Optional[str] = None) -> List[Dict[str, Union[str, float, int, bool, List[str]]]]:
         """
         Detect patterns with confidence scores.
         
