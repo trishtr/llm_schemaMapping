@@ -1,0 +1,493 @@
+{
+  "database_name": "corrected_healthcare_db",
+  "schema_name": "public",
+  "database_type": "postgresql",
+  "profiling_timestamp": "2025-08-21T16:45:00",
+  "total_tables": 3,
+  "total_columns": 13,
+  "tables": [
+    {
+      "name": "patients",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Patient records with provider relationships",
+      "estimated_row_count": 50000,
+      "total_columns": 6,
+      "columns": [
+        {
+          "name": "patient_id",
+          "data_type": "bigint",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            100001,
+            100002,
+            100003,
+            100004,
+            100005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "primary_provider_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1001,
+            1004
+          ],
+          "foreign_key_reference": {
+            "referenced_table": "providers",
+            "referenced_column": "provider_id",
+            "constraint_name": "fk_patients_provider"
+          }
+        },
+        {
+          "name": "department_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            101,
+            103,
+            102
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "email_address",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 255,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 4,
+          "detected_patterns": [
+            "email_address"
+          ],
+          "sample_values": [
+            "john@example.com",
+            "jane@test.org",
+            "bob@clinic.net",
+            "alice@hospital.edu",
+            "charlie@medical.com"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "phone_number",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 20,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 5,
+          "detected_patterns": [
+            "phone_number"
+          ],
+          "sample_values": [
+            "555-123-4567",
+            "555-987-6543",
+            "555-456-7890",
+            "555-234-5678",
+            "555-345-6789"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "status",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 20,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 6,
+          "detected_patterns": [
+            "status_field"
+          ],
+          "sample_values": [
+            "active",
+            "inactive",
+            "pending",
+            "active",
+            "completed"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "patient_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "primary_provider_id",
+          "referenced_table": "providers",
+          "referenced_column": "provider_id",
+          "constraint_name": "fk_patients_provider"
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_patients_provider",
+          "column_name": "primary_provider_id",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_patients_department",
+          "column_name": "department_id",
+          "is_unique": false
+        }
+      ],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": [
+        {
+          "column_name": "department_id",
+          "potential_referenced_table": "departments",
+          "potential_referenced_column": "dept_id",
+          "confidence": "high",
+          "reason": "Column name pattern and data type match"
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Healthcare providers with NPI identifiers",
+      "estimated_row_count": 1500,
+      "total_columns": 4,
+      "columns": [
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "npi",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": false,
+          "max_length": 10,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [
+            "npi_identifier"
+          ],
+          "sample_values": [
+            "1234567890",
+            "9876543210",
+            "5555666677",
+            "1111222233",
+            "9999888877"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "department_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            103,
+            101,
+            104
+          ],
+          "foreign_key_reference": {
+            "referenced_table": "departments",
+            "referenced_column": "dept_id",
+            "constraint_name": "fk_providers_department"
+          }
+        },
+        {
+          "name": "supervisor_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 4,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            null,
+            1001,
+            1002
+          ],
+          "foreign_key_reference": {
+            "referenced_table": "providers",
+            "referenced_column": "provider_id",
+            "constraint_name": "fk_providers_supervisor"
+          }
+        }
+      ],
+      "primary_keys": [
+        "provider_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "department_id",
+          "referenced_table": "departments",
+          "referenced_column": "dept_id",
+          "constraint_name": "fk_providers_department"
+        },
+        {
+          "column_name": "supervisor_id",
+          "referenced_table": "providers",
+          "referenced_column": "provider_id",
+          "constraint_name": "fk_providers_supervisor"
+        }
+      ],
+      "indexes": [
+        {
+          "index_name": "idx_providers_npi",
+          "column_name": "npi",
+          "is_unique": true
+        },
+        {
+          "index_name": "idx_providers_department",
+          "column_name": "department_id",
+          "is_unique": false
+        },
+        {
+          "index_name": "idx_providers_supervisor",
+          "column_name": "supervisor_id",
+          "is_unique": false
+        }
+      ],
+      "sample_data": [],
+      "self_referencing_columns": [
+        "supervisor_id"
+      ],
+      "potential_fk_candidates": []
+    },
+    {
+      "name": "departments",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Hospital departments",
+      "estimated_row_count": 25,
+      "total_columns": 3,
+      "columns": [
+        {
+          "name": "dept_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            103,
+            104,
+            105
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "dept_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 100,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [],
+          "sample_values": [
+            "Cardiology",
+            "Neurology",
+            "Emergency",
+            "Radiology",
+            "Pediatrics"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "manager_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": true,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1003,
+            1005,
+            1002,
+            1004
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "dept_id"
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "index_name": "idx_departments_manager",
+          "column_name": "manager_id",
+          "is_unique": false
+        }
+      ],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": [
+        {
+          "column_name": "manager_id",
+          "potential_referenced_table": "providers",
+          "potential_referenced_column": "provider_id",
+          "confidence": "high",
+          "reason": "Column name pattern suggests provider relationship"
+        }
+      ]
+    }
+  ],
+  "cross_table_relationships": [
+    {
+      "type": "foreign_key",
+      "from_table": "patients",
+      "from_column": "primary_provider_id",
+      "to_table": "providers",
+      "to_column": "provider_id",
+      "constraint_name": "fk_patients_provider"
+    },
+    {
+      "type": "foreign_key",
+      "from_table": "providers",
+      "from_column": "department_id",
+      "to_table": "departments",
+      "to_column": "dept_id",
+      "constraint_name": "fk_providers_department"
+    },
+    {
+      "type": "self_reference",
+      "from_table": "providers",
+      "from_column": "supervisor_id",
+      "to_table": "providers",
+      "to_column": "provider_id",
+      "constraint_name": "fk_providers_supervisor"
+    }
+  ],
+  "potential_relationships": [
+    {
+      "type": "potential_foreign_key",
+      "from_table": "patients",
+      "from_column": "department_id",
+      "to_table": "departments",
+      "to_column": "dept_id",
+      "confidence": "high",
+      "reason": "Column name pattern and data type match"
+    },
+    {
+      "type": "potential_foreign_key",
+      "from_table": "departments",
+      "from_column": "manager_id",
+      "to_table": "providers",
+      "to_column": "provider_id",
+      "confidence": "high",
+      "reason": "Column name pattern suggests provider relationship"
+    }
+  ],
+  "pattern_summary": {
+    "npi_identifier": 1,
+    "email_address": 1,
+    "phone_number": 1,
+    "status_field": 1
+  }
+}
