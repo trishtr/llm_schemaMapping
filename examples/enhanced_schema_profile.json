@@ -1,0 +1,309 @@
+{
+  "database_name": "enhanced_healthcare_db",
+  "schema_name": "public",
+  "database_type": "postgresql",
+  "profiling_timestamp": "2025-08-21T10:00:00",
+  "total_tables": 2,
+  "total_columns": 12,
+  "tables": [
+    {
+      "name": "patients",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Patient demographic and contact information",
+      "estimated_row_count": 50000,
+      "total_columns": 8,
+      "columns": [
+        {
+          "name": "patient_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            12345,
+            67890,
+            11111,
+            22222,
+            33333
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "mrn",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": false,
+          "max_length": 20,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "MRN001234",
+            "MRN005678",
+            "MRN009012",
+            "MRN003456",
+            "MRN007890"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "first_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 50,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "John",
+            "Maria",
+            "David",
+            "Sarah",
+            "Michael"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "last_name",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 50,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "Smith",
+            "Garcia",
+            "Johnson",
+            "Williams",
+            "Brown"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "date_of_birth",
+          "data_type": "date",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "1985-03-15",
+            "1992-07-22",
+            "1978-11-08",
+            "1995-01-30",
+            "1983-09-12"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "email_address",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 255,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "john.smith@email.com",
+            "maria.garcia@healthcare.org",
+            "david.j@clinic.net",
+            "sarah.w@hospital.edu",
+            "michael.b@medical.com"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "phone_number",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 20,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "555-123-4567",
+            "555-987-6543",
+            "555-456-7890",
+            "555-234-5678",
+            "555-345-6789"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "insurance_member_id",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 30,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "INS123456789",
+            "MEM987654321",
+            "POL456789123",
+            "PLN789123456",
+            "COV321654987"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [],
+      "foreign_keys": [],
+      "indexes": [],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": []
+    },
+    {
+      "name": "providers",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": "Healthcare provider information with NPI identifiers",
+      "estimated_row_count": 1500,
+      "total_columns": 4,
+      "columns": [
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "npi",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": false,
+          "max_length": 10,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "1234567890",
+            "9876543210",
+            "5555666677",
+            "1111222233",
+            "9999888877"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "appointment_date",
+          "data_type": "timestamp",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "2024-08-21 09:30:00",
+            "2024-08-21 14:15:00",
+            "2024-08-22 10:45:00",
+            "2024-08-22 16:30:00",
+            "2024-08-23 08:00:00"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "status",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": 20,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 0,
+          "detected_patterns": [],
+          "sample_values": [
+            "active",
+            "inactive",
+            "pending",
+            "completed",
+            "cancelled"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [],
+      "foreign_keys": [],
+      "indexes": [],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": []
+    }
+  ],
+  "cross_table_relationships": [],
+  "potential_relationships": [],
+  "pattern_summary": {}
+}

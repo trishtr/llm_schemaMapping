@@ -2,7 +2,7 @@
   "database_name": "healthcare_db",
   "schema_name": "public",
   "database_type": "postgresql",
-  "profiling_timestamp": "2025-08-19T10:42:52.465327",
+  "profiling_timestamp": "2025-08-21T09:49:16.463082",
   "total_tables": 3,
   "total_columns": 14,
   "tables": [

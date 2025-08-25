@@ -1,510 +1,68 @@
 {
-  "healthcare_provider_patterns": {
-    "version": "1.0",
-    "last_updated": "2025-08-14",
-    "description": "Healthcare provider/practitioner field patterns for data profiling and schema mapping",
-    "scope": "provider_demographics_only",
+  "npi_identifier": {
+    "regex": "^[0-9]{10}$",
+    "field_names": ["npi", "national_provider_id"],
+    "data_types": ["varchar", "char"]
+  },
 
-    "pattern_categories": {
-      "provider_identifiers": {
-        "description": "Healthcare provider and practitioner identifiers",
-        "compliance_level": "high",
-        "patterns": {
-          "npi": {
-            "regex": "^\\d{10}$",
-            "description": "National Provider Identifier - 10 digit number",
-            "examples": ["1234567890", "9876543210"],
-            "validation_url": "https://npiregistry.cms.hhs.gov/",
-            "phi_status": "limited",
-            "required_for": [
-              "provider_demographics",
-              "billing",
-              "credentialing"
-            ],
-            "field_names": ["npi", "provider_id", "national_provider_id"]
-          },
-          "dea_number": {
-            "regex": "^[A-Z]{2}\\d{7}$",
-            "description": "DEA Registration Number - 2 letters + 7 digits",
-            "examples": ["AB1234567", "XY9876543"],
-            "phi_status": "limited",
-            "required_for": ["controlled_substances", "prescribing"],
-            "field_names": ["dea", "dea_number", "dea_registration"]
-          },
-          "state_license_number": {
-            "regex": "^[A-Z0-9]{4,15}$",
-            "description": "State Medical License Number",
-            "examples": ["MD12345", "RN987654ABC", "123456"],
-            "phi_status": "limited",
-            "note": "Format varies by state and profession",
-            "field_names": [
-              "license_number",
-              "medical_license",
-              "state_license",
-              "license_id"
-            ]
-          },
-          "medicare_provider_id": {
-            "regex": "^\\d{6}-\\d{2}-\\d{4}$",
-            "description": "Medicare Provider ID",
-            "examples": ["123456-78-9012", "987654-32-1098"],
-            "phi_status": "limited",
-            "required_for": ["medicare_billing", "cms_reporting"],
-            "field_names": [
-              "medicare_id",
-              "medicare_provider_id",
-              "cms_provider_id"
-            ]
-          },
-          "medicaid_provider_id": {
-            "regex": "^[A-Z0-9]{6,12}$",
-            "description": "Medicaid Provider ID (varies by state)",
-            "examples": ["ABC123456", "XYZ98765ABC", "123456789"],
-            "phi_status": "limited",
-            "note": "Format varies by state",
-            "field_names": [
-              "medicaid_id",
-              "medicaid_provider_id",
-              "state_provider_id"
-            ]
-          },
-          "taxonomy_code": {
-            "regex": "^\\d{10}X$",
-            "description": "Healthcare Provider Taxonomy Code",
-            "examples": ["2085R0202X", "1223G0001X", "208D00000X"],
-            "phi_status": "none",
-            "required_for": ["provider_classification", "directory_listings"],
-            "field_names": [
-              "taxonomy",
-              "taxonomy_code",
-              "specialty_code",
-              "provider_type"
-            ]
-          },
-          "upin": {
-            "regex": "^[A-Z]\\d{5}$",
-            "description": "Unique Physician Identification Number (legacy)",
-            "examples": ["A12345", "Z98765"],
-            "phi_status": "limited",
-            "status": "deprecated",
-            "replaced_by": "npi",
-            "field_names": ["upin", "physician_id"]
-          }
-        }
-      },
+  "email_address": {
+    "regex": "^[a-zA-Z0-9][a-zA-Z0-9._%+-]{0,63}@[a-zA-Z0-9][a-zA-Z0-9.-]{0,62}\\.[a-zA-Z]{2,6}$",
+    "field_names": ["email", "email_address", "email_addr"],
+    "patterns": ["*email*", "*_email", "email_*", "*mail*"],
+    "data_types": ["varchar", "text"]
+  },
 
-      "provider_demographics": {
-        "description": "Provider personal and demographic information",
-        "compliance_level": "medium",
-        "patterns": {
-          "provider_name": {
-            "regex": "^[A-Za-z\\s\\-\\.,']{2,50}$",
-            "description": "Provider First, Middle, Last Name",
-            "examples": ["John", "Mary", "Smith", "O'Connor", "Van Der Berg"],
-            "phi_status": "limited",
-            "field_names": [
-              "first_name",
-              "last_name",
-              "middle_name",
-              "middle_initial",
-              "provider_name"
-            ]
-          },
-          "name_suffix": {
-            "regex": "^(Jr\\.?|Sr\\.?|II|III|IV|V|MD|DO|RN|NP|PA|PhD|DDS|PharmD)$",
-            "description": "Name suffixes and titles",
-            "examples": [
-              "Jr.",
-              "Sr.",
-              "II",
-              "III",
-              "MD",
-              "DO",
-              "RN",
-              "NP",
-              "PA"
-            ],
-            "phi_status": "limited",
-            "case_sensitive": false,
-            "field_names": ["suffix", "name_suffix", "title", "provider_suffix"]
-          },
-          "salutation_title": {
-            "regex": "^(Dr\\.?|Mr\\.?|Mrs\\.?|Ms\\.?|Miss)$",
-            "description": "Professional salutation or title",
-            "examples": ["Dr.", "Mr.", "Mrs.", "Ms."],
-            "phi_status": "limited",
-            "case_sensitive": false,
-            "field_names": ["salutation", "title", "prefix"]
-          },
-          "gender": {
-            "regex": "^(M|F|Male|Female|Other|Unknown|U)$",
-            "description": "Gender designation",
-            "examples": ["M", "F", "Male", "Female", "Other", "Unknown"],
-            "phi_status": "limited",
-            "case_sensitive": false,
-            "field_names": ["gender", "sex", "provider_gender"]
-          }
-        }
-      },
+  "phone_number": {
+    "regex": "^(\\+?1[-\\s]?)?\\(?[2-9][0-9]{2}\\)?[-\\s]?[0-9]{3}[-\\s]?[0-9]{4}$",
+    "field_names": ["phone", "phone_number", "telephone"],
+    "data_types": ["varchar"]
+  },
 
-      "contact_information": {
-        "description": "Provider contact and address information",
-        "compliance_level": "medium",
-        "patterns": {
-          "phone_formatted": {
-            "regex": "^\\(\\d{3}\\)\\s?\\d{3}-\\d{4}$",
-            "description": "Formatted phone number (XXX) XXX-XXXX",
-            "examples": ["(555) 123-4567", "(800)555-1234"],
-            "phi_status": "limited",
-            "field_names": [
-              "phone",
-              "telephone",
-              "phone_number",
-              "contact_phone"
-            ]
-          },
-          "phone_simple": {
-            "regex": "^\\d{3}-?\\d{3}-?\\d{4}$",
-            "description": "Simple phone number format",
-            "examples": ["555-123-4567", "5551234567", "555.123.4567"],
-            "phi_status": "limited",
-            "field_names": ["phone", "telephone", "mobile", "fax"]
-          },
-          "email": {
-            "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-            "description": "Email address",
-            "examples": ["doctor@clinic.com", "provider123@hospital.org"],
-            "phi_status": "limited",
-            "field_names": ["email", "email_address", "contact_email"]
-          },
-          "zip_code": {
-            "regex": "^\\d{5}(-\\d{4})?$",
-            "description": "ZIP code (5 digit or ZIP+4)",
-            "examples": ["12345", "12345-6789"],
-            "phi_status": "limited",
-            "field_names": ["zip", "zip_code", "postal_code"]
-          },
-          "state_code": {
-            "regex": "^[A-Z]{2}$",
-            "description": "Two-letter state abbreviation",
-            "examples": ["CA", "NY", "TX", "FL"],
-            "phi_status": "limited",
-            "field_names": ["state", "state_code", "province"]
-          }
-        }
-      },
+  "ssn": {
+    "regex": "^[0-9]{3}-[0-9]{2}-[0-9]{4}$",
+    "field_names": ["ssn", "social_security_number"],
+    "data_types": ["varchar", "char"]
+  },
 
-      "specialty_and_practice": {
-        "description": "Provider specialty and practice information",
-        "compliance_level": "low",
-        "patterns": {
-          "medical_specialty": {
-            "regex": "^[A-Za-z\\s\\-&/]{3,50}$",
-            "description": "Medical specialty or practice type",
-            "examples": [
-              "Internal Medicine",
-              "Cardiology",
-              "Family Practice",
-              "Emergency Medicine"
-            ],
-            "phi_status": "none",
-            "field_names": [
-              "specialty",
-              "medical_specialty",
-              "practice_type",
-              "department"
-            ]
-          },
-          "degree": {
-            "regex": "^(MD|DO|RN|NP|PA|PhD|DDS|PharmD|MSN|BSN|LPN|CNA)$",
-            "description": "Professional degree or certification",
-            "examples": ["MD", "DO", "RN", "NP", "PA", "PhD"],
-            "phi_status": "none",
-            "case_sensitive": false,
-            "field_names": ["degree", "credential", "certification"]
-          },
-          "board_certification": {
-            "regex": "^[A-Za-z\\s\\-&/]{5,100}$",
-            "description": "Board certification specialty",
-            "examples": [
-              "American Board of Internal Medicine",
-              "Board Certified in Surgery"
-            ],
-            "phi_status": "none",
-            "field_names": [
-              "board_certification",
-              "certification",
-              "board_certified"
-            ]
-          },
-          "practice_setting": {
-            "regex": "^(Hospital|Clinic|Private Practice|Academic|Group Practice|Solo Practice)$",
-            "description": "Type of practice setting",
-            "examples": ["Hospital", "Clinic", "Private Practice", "Academic"],
-            "phi_status": "none",
-            "case_sensitive": false,
-            "field_names": [
-              "practice_setting",
-              "practice_type",
-              "facility_type"
-            ]
-          }
-        }
-      },
+  "zip_code": {
+    "regex": "^[0-9]{5}(-[0-9]{4})?$",
+    "field_names": ["zip", "zip_code", "postal_code", "zipcode"],
+    "data_types": ["varchar", "char"]
+  },
 
-      "languages": {
-        "description": "Languages spoken by provider",
-        "compliance_level": "low",
-        "patterns": {
-          "language_code": {
-            "regex": "^[A-Z]{2,3}$",
-            "description": "ISO language codes",
-            "examples": ["EN", "ES", "FR", "ENG", "SPA"],
-            "phi_status": "none",
-            "field_names": ["language", "language_code", "spoken_language"]
-          },
-          "language_name": {
-            "regex": "^[A-Za-z\\s\\-]{3,20}$",
-            "description": "Full language name",
-            "examples": [
-              "English",
-              "Spanish",
-              "French",
-              "Mandarin",
-              "Portuguese"
-            ],
-            "phi_status": "none",
-            "field_names": ["language", "language_name", "spoken_language"]
-          }
-        }
-      },
+  "credit_card": {
+    "regex": "^[0-9]{4}[-\\s]?[0-9]{4}[-\\s]?[0-9]{4}[-\\s]?[0-9]{4}$",
+    "field_names": ["credit_card", "card_number", "cc_number"],
+    "data_types": ["varchar"]
+  },
 
-      "status_indicators": {
-        "description": "Provider status and verification flags",
-        "compliance_level": "low",
-        "patterns": {
-          "active_status": {
-            "regex": "^(Active|Inactive|Suspended|Pending|Terminated|Y|N|Yes|No|True|False|1|0)$",
-            "description": "Provider active status",
-            "examples": ["Active", "Inactive", "Y", "N", "True", "False"],
-            "phi_status": "none",
-            "case_sensitive": false,
-            "field_names": [
-              "active",
-              "status",
-              "is_active",
-              "provider_status",
-              "active_flag"
-            ]
-          },
-          "accepting_patients": {
-            "regex": "^(Yes|No|Y|N|True|False|1|0|Limited)$",
-            "description": "Whether provider is accepting new patients",
-            "examples": ["Yes", "No", "Y", "N", "Limited"],
-            "phi_status": "none",
-            "case_sensitive": false,
-            "field_names": [
-              "accepting_patients",
-              "new_patients",
-              "accepting_new"
-            ]
-          },
-          "verification_status": {
-            "regex": "^(Verified|Unverified|Pending|In Progress|Complete)$",
-            "description": "Credentialing verification status",
-            "examples": ["Verified", "Unverified", "Pending", "Complete"],
-            "phi_status": "none",
-            "case_sensitive": false,
-            "field_names": [
-              "verification_status",
-              "credential_status",
-              "verified"
-            ]
-          }
-        }
-      }
-    },
+  "currency_amount": {
+    "regex": "^\\$[0-9]{1,8}\\.[0-9]{2}$",
+    "field_names": ["amount", "price", "cost", "total", "payment", "balance"],
+    "data_types": ["decimal", "money", "numeric"]
+  },
 
-    "basic_data_patterns": {
-      "description": "General data patterns for any field type",
-      "compliance_level": "low",
-      "priority": 10,
-      "patterns": {
-        "email": {
-          "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-          "description": "Email address format",
-          "examples": ["user@example.com", "test.email@domain.org"],
-          "phi_status": "limited",
-          "field_names": ["email", "email_address", "contact_email"]
-        },
-        "phone": {
-          "regex": "^\\+?[\\d\\s\\-\\(\\)]+$",
-          "description": "General phone number format",
-          "examples": ["+1-555-123-4567", "(555) 123-4567", "555.123.4567"],
-          "phi_status": "limited",
-          "field_names": ["phone", "telephone", "tel", "mobile"]
-        },
-        "url": {
-          "regex": "^https?://[^\\s]+$",
-          "description": "HTTP/HTTPS URL format",
-          "examples": ["https://example.com", "http://website.org/page"],
-          "phi_status": "none",
-          "field_names": ["url", "website", "link", "uri"]
-        },
-        "uuid": {
-          "regex": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-          "description": "UUID format (lowercase)",
-          "examples": ["550e8400-e29b-41d4-a716-446655440000"],
-          "phi_status": "none",
-          "field_names": ["uuid", "guid", "id", "identifier"]
-        },
-        "date_iso": {
-          "regex": "^\\d{4}-\\d{2}-\\d{2}$",
-          "description": "ISO date format (YYYY-MM-DD)",
-          "examples": ["2024-01-15", "2023-12-25"],
-          "phi_status": "limited",
-          "field_names": ["date", "created_date", "updated_date"]
-        },
-        "datetime_iso": {
-          "regex": "^\\d{4}-\\d{2}-\\d{2}[T\\s]\\d{2}:\\d{2}:\\d{2}",
-          "description": "ISO datetime format",
-          "examples": ["2024-01-15T10:30:00", "2024-01-15 10:30:00"],
-          "phi_status": "limited",
-          "field_names": ["datetime", "timestamp", "created_at", "updated_at"]
-        },
-        "numeric_string": {
-          "regex": "^\\d+$",
-          "description": "Numbers stored as strings",
-          "examples": ["12345", "987654321"],
-          "phi_status": "none",
-          "field_names": ["id", "number", "code", "count"]
-        },
-        "decimal_string": {
-          "regex": "^\\d+\\.\\d+$",
-          "description": "Decimal numbers as strings",
-          "examples": ["123.45", "0.99", "1000.50"],
-          "phi_status": "none",
-          "field_names": ["price", "amount", "value", "rate"]
-        },
-        "alphanumeric": {
-          "regex": "^[a-zA-Z0-9]+$",
-          "description": "Alphanumeric characters only",
-          "examples": ["ABC123", "Test123", "ID12345"],
-          "phi_status": "none",
-          "field_names": ["code", "reference", "key", "identifier"]
-        },
-        "uppercase": {
-          "regex": "^[A-Z\\s]+$",
-          "description": "All uppercase letters",
-          "examples": ["ACTIVE", "PENDING", "NORTH AMERICA"],
-          "phi_status": "none",
-          "field_names": ["status", "state", "region", "category"]
-        },
-        "lowercase": {
-          "regex": "^[a-z\\s]+$",
-          "description": "All lowercase letters",
-          "examples": ["active", "pending", "north america"],
-          "phi_status": "none",
-          "field_names": ["status", "state", "region", "category"]
-        }
-      }
-    },
-    "semantic_hints": {
-      "provider_identification": [
-        "npi",
-        "provider_id",
-        "physician_id",
-        "practitioner_id",
-        "doctor_id"
-      ],
-      "name_fields": [
-        "first_name",
-        "last_name",
-        "middle_name",
-        "full_name",
-        "provider_name",
-        "physician_name",
-        "doctor_name",
-        "practitioner_name"
-      ],
-      "contact_fields": [
-        "phone",
-        "email",
-        "address",
-        "city",
-        "state",
-        "zip",
-        "contact"
-      ],
-      "professional_info": [
-        "specialty",
-        "degree",
-        "license",
-        "certification",
-        "taxonomy",
-        "credential"
-      ],
-      "status_fields": [
-        "active",
-        "status",
-        "verified",
-        "accepting",
-        "available"
-      ]
-    },
+  "status_field": {
+    "field_names": ["status", "state"],
+    "valid_values": [
+      "active",
+      "inactive",
+      "pending",
+      "completed",
+      "cancelled",
+      "approved",
+      "rejected"
+    ],
+    "data_types": ["varchar"]
+  },
 
-    "field_mapping_hints": {
-      "common_variations": {
-        "npi": [
-          "npi",
-          "national_provider_identifier",
-          "provider_npi",
-          "npi_number"
-        ],
-        "first_name": ["fname", "first", "given_name", "provider_first_name"],
-        "last_name": [
-          "lname",
-          "last",
-          "surname",
-          "family_name",
-          "provider_last_name"
-        ],
-        "middle_name": ["mname", "middle", "middle_initial", "mi"],
-        "phone": ["telephone", "phone_number", "contact_phone", "tel"],
-        "email": ["email_address", "contact_email", "electronic_mail"],
-        "specialty": [
-          "medical_specialty",
-          "practice_specialty",
-          "provider_specialty"
-        ],
-        "license_number": [
-          "medical_license",
-          "state_license",
-          "license_id",
-          "lic_num"
-        ]
-      }
-    },
+  "patient_id": {
+    "field_names": ["patient_id", "mrn", "medical_record_number"],
+    "data_types": ["int", "bigint", "varchar"]
+  },
 
-    "validation_rules": {
-      "npi": {
-        "length": 10,
-        "numeric_only": true,
-        "luhn_check": true
-      },
-      "phone": {
-        "remove_formatting": true,
-        "validate_length": 10,
-        "us_format_only": true
-      },
-      "email": {
-        "validate_domain": true,
-        "require_at_symbol": true
-      },
-      "zip_code": {
-        "validate_us_format": true,
-        "allow_plus_four": true
-      }
-    }
+  "timestamp_field": {
+    "field_names": ["created_at", "updated_at", "modified_at", "deleted_at"],
+    "data_types": ["timestamp", "datetime"]
   }
 }

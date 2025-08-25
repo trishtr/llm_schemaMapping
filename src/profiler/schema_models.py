@@ -81,6 +81,7 @@ class TableProfile:
     table_type: str = "BASE TABLE"
     table_comment: Optional[str] = None
     estimated_row_count: int = 0
+    total_columns: int = 0
     columns: List[ColumnProfile] = field(default_factory=list)
     primary_keys: List[str] = field(default_factory=list)
     foreign_keys: List[Dict[str, str]] = field(default_factory=list)

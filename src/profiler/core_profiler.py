@@ -12,7 +12,7 @@ from typing import Dict, Any, List, Optional
 from .interfaces import SchemaProfiler, ProfilerConfig
 from .schema_models import SchemaProfile, TableProfile
 from .metadata_extractor import MetadataExtractor
-from .pattern_recognizer import FieldPatternRecognizer
+from .simple_pattern_recognizer import SimplePatternRecognizer as FieldPatternRecognizer
 from .database_dialect import DatabaseDialect
 
 
@@ -121,6 +121,7 @@ class CoreSchemaProfiler(SchemaProfiler):
                 name=table_name,
                 schema=config.schema_name,
                 columns=metadata['columns'],
+                total_columns=len(metadata['columns']),
                 primary_keys=metadata['primary_keys'],
                 foreign_keys=metadata['foreign_keys'],
                 indexes=metadata['indexes'],
@@ -143,6 +144,7 @@ class CoreSchemaProfiler(SchemaProfiler):
                 name=table_name,
                 schema=config.schema_name,
                 columns=[],
+                total_columns=0,
                 primary_keys=[],
                 foreign_keys=[],
                 indexes=[],

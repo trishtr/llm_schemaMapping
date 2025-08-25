@@ -1,0 +1,103 @@
+# Technical Mapping Standards Configuration
+# Standardized guidelines for healthcare schema mapping
+
+technical_mapping_standards:
+  # Data Type Mappings - Consistent across all systems
+  data_type_mappings:
+    string_types:
+      VARCHAR: "TEXT"
+      CHAR: "VARCHAR"
+      STRING: "VARCHAR"
+      TEXT: "TEXT"
+
+    numeric_types:
+      INT: "INTEGER"
+      BIGINT: "BIGINT"
+      DECIMAL: "NUMERIC"
+      FLOAT: "REAL"
+      DOUBLE: "DOUBLE_PRECISION"
+
+    temporal_types:
+      DATETIME: "TIMESTAMP"
+      DATE: "DATE"
+      TIME: "TIME"
+      TIMESTAMP: "TIMESTAMP WITH TIME ZONE"
+
+    boolean_types:
+      BOOLEAN: "BOOLEAN"
+      TINYINT_1: "BOOLEAN"
+      BIT: "BOOLEAN"
+
+    binary_types:
+      BLOB: "BLOB"
+      VARBINARY: "BLOB"
+      BINARY: "BYTEA"
+
+  # Consistent Naming Conventions - snake_case for all database elements
+  naming_conventions:
+    database_objects:
+      tables: "snake_case" # user_profiles, patient_records
+      columns: "snake_case" # first_name, patient_id, created_at
+      indexes: "snake_case" # idx_patient_name, pk_user_id
+      constraints: "snake_case" # fk_user_department, ck_valid_status
+
+    application_objects:
+      classes: "PascalCase" # PatientRecord, UserProfile
+      methods: "snake_case" # get_patient_data, validate_npi
+      variables: "snake_case" # patient_count, is_active
+      constants: "SCREAMING_SNAKE_CASE" # MAX_RETRY_COUNT, DEFAULT_TIMEOUT
+
+  # Data Quality Standards
+  data_quality_standards:
+    primary_keys:
+      - "must_be_unique"
+      - "must_be_non_null"
+      - "must_be_stable_over_time"
+      - "prefer_surrogate_keys_for_healthcare_data"
+
+    foreign_keys:
+      - "must_reference_valid_primary_keys"
+      - "maintain_referential_integrity"
+      - "cascade_options_must_be_explicit"
+      - "maintain_all_existing_relationships"
+
+    required_fields:
+      healthcare_provider: ["npi", "first_name", "last_name"]
+      contact_info: ["primary_contact_method"]
+      professional: ["primary_specialty", "license_status"]
+
+    validation_rules:
+      - "implement_business_rule_validation"
+      - "validate_against_external_registries_where_applicable"
+      - "ensure_data_consistency_across_related_tables"
+
+  # Audit Standards
+  audit_standards:
+    required_metadata:
+      - "source_system_identifier"
+      - "extraction_timestamp"
+      - "transformation_version"
+      - "data_quality_score"
+
+    change_tracking:
+      - "track_all_field_modifications"
+      - "maintain_historical_versions"
+      - "log_transformation_decisions"
+
+  # Pattern Matching Configuration
+  pattern_matching:
+    priority_order:
+      1: "exact_field_name_match"
+      2: "healthcare_specific_patterns"
+      3: "semantic_category_patterns"
+      4: "basic_data_type_patterns"
+
+    confidence_thresholds:
+      high_confidence: 0.9 # Exact matches, known healthcare fields
+      medium_confidence: 0.7 # Pattern matches with context
+      low_confidence: 0.5 # Basic type inference
+
+    conflict_resolution:
+      multiple_matches: "select_highest_confidence"
+      tie_breaking: "prefer_healthcare_specific"
+      no_matches: "apply_basic_type_inference"

@@ -19,7 +19,7 @@ from .incremental_manager import (
     MemoryProfileCache
 )
 from .metadata_extractor import MetadataExtractor
-from .pattern_recognizer import FieldPatternRecognizer
+from .simple_pattern_recognizer import SimplePatternRecognizer as FieldPatternRecognizer
 from .schema_models import SchemaProfile
 
 

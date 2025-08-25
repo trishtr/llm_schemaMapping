@@ -1,0 +1,290 @@
+# Healthcare Domain Configuration - Simplified Structure
+# Flattened hierarchy for improved performance and maintainability
+
+healthcare_domain:
+  version: "1.0"
+  last_updated: "2025-08-21"
+
+  # Direct Pattern Registry - No nested categories
+  field_patterns:
+    # Healthcare Identifiers
+    patient_identifier:
+      field_names:
+        ["patient_id", "pt_id", "mrn", "medical_record_number", "patient_key"]
+      data_types: ["int", "varchar", "bigint"]
+      sensitivity: "phi_high"
+      entity_type: "patient"
+      validation: "unique_non_null"
+
+    provider_identifier:
+      field_names:
+        [
+          "provider_id",
+          "prov_id",
+          "doctor_id",
+          "physician_id",
+          "npi",
+          "provider_number",
+        ]
+      data_types: ["int", "varchar", "bigint"]
+      sensitivity: "phi_limited"
+      entity_type: "provider"
+      validation: "unique_non_null"
+
+    appointment_identifier:
+      field_names: ["appointment_id", "visit_id", "encounter_id"]
+      data_types: ["int", "varchar", "bigint"]
+      sensitivity: "phi_limited"
+      entity_type: "appointment"
+      validation: "unique_non_null"
+
+    department_identifier:
+      field_names: ["dept_id", "department_id", "department_code"]
+      data_types: ["int", "varchar"]
+      sensitivity: "internal"
+      entity_type: "department"
+      validation: "unique_non_null"
+
+    # Personal Information
+    person_name:
+      field_names:
+        [
+          "first_name",
+          "last_name",
+          "middle_name",
+          "fname",
+          "lname",
+          "given_name",
+          "surname",
+          "family_name",
+        ]
+      data_types: ["varchar", "text"]
+      sensitivity: "phi_high"
+      transformation: "trim_whitespace,proper_case"
+      validation: "required_non_empty"
+
+    contact_email:
+      field_names: ["email", "email_address", "contact_email", "primary_email"]
+      data_types: ["varchar"]
+      sensitivity: "phi_limited"
+      regex: "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$"
+      transformation: "lowercase,trim_whitespace"
+
+    phone_number:
+      field_names:
+        ["phone", "telephone", "phone_number", "contact_phone", "mobile", "tel"]
+      data_types: ["varchar"]
+      sensitivity: "phi_limited"
+      transformation: "normalize_phone_format"
+      validation: "valid_phone_length"
+
+    # Clinical Data
+    diagnosis_information:
+      field_names:
+        [
+          "diagnosis_code",
+          "icd_code",
+          "primary_diagnosis",
+          "secondary_diagnosis",
+        ]
+      data_types: ["varchar"]
+      sensitivity: "phi_high"
+      validation: "valid_icd_format"
+
+    procedure_information:
+      field_names:
+        ["procedure_code", "cpt_code", "hcpcs_code", "procedure_description"]
+      data_types: ["varchar"]
+      sensitivity: "phi_high"
+      validation: "valid_procedure_code"
+
+    vital_signs:
+      field_names:
+        [
+          "blood_pressure",
+          "heart_rate",
+          "temperature",
+          "weight",
+          "height",
+          "vital_sign_value",
+        ]
+      data_types: ["varchar", "decimal", "float"]
+      sensitivity: "phi_high"
+      validation: "numeric_range_check"
+
+    # Financial Information
+    financial_amount:
+      field_names:
+        [
+          "amount",
+          "cost",
+          "price",
+          "total_amount",
+          "copay",
+          "deductible",
+          "payment_amount",
+        ]
+      data_types: ["decimal", "float", "money"]
+      sensitivity: "confidential"
+      validation: "positive_amount"
+
+    insurance_data:
+      field_names:
+        [
+          "insurance_id",
+          "policy_number",
+          "member_id",
+          "group_number",
+          "plan_name",
+        ]
+      data_types: ["varchar"]
+      sensitivity: "phi_high"
+      validation: "required_for_billing"
+
+    # Temporal Fields
+    date_fields:
+      field_names:
+        [
+          "created_date",
+          "updated_date",
+          "admission_date",
+          "discharge_date",
+          "appointment_date",
+          "effective_date",
+        ]
+      data_types: ["date", "datetime", "timestamp"]
+      sensitivity: "phi_limited"
+      transformation: "standardize_date_format"
+
+    timestamp_fields:
+      field_names: ["created_at", "updated_at", "last_modified", "timestamp"]
+      data_types: ["timestamp", "datetime"]
+      sensitivity: "internal"
+      default_value: "CURRENT_TIMESTAMP"
+
+    # Status and Operational
+    status_indicators:
+      field_names:
+        [
+          "status",
+          "state",
+          "active",
+          "enabled",
+          "deleted",
+          "appointment_status",
+          "patient_status",
+        ]
+      data_types: ["varchar", "boolean"]
+      sensitivity: "internal"
+      valid_values:
+        [
+          "active",
+          "inactive",
+          "pending",
+          "completed",
+          "cancelled",
+          "scheduled",
+          "in_progress",
+        ]
+
+    audit_fields:
+      field_names: ["created_by", "updated_by", "modified_by", "version"]
+      data_types: ["varchar", "int"]
+      sensitivity: "internal"
+      validation: "reference_user_table"
+
+  # Entity Definitions - Simplified
+  entities:
+    patient:
+      required_fields: ["patient_id", "first_name", "last_name"]
+      optional_fields:
+        [
+          "middle_name",
+          "date_of_birth",
+          "gender",
+          "contact_email",
+          "phone_number",
+        ]
+      relationships: ["has_many_appointments", "has_many_diagnoses"]
+
+    provider:
+      required_fields: ["provider_id", "npi", "first_name", "last_name"]
+      optional_fields: ["specialty", "department_id", "license_number"]
+      relationships: ["has_many_appointments", "belongs_to_department"]
+
+    appointment:
+      required_fields:
+        ["appointment_id", "patient_id", "provider_id", "appointment_date"]
+      optional_fields: ["status", "appointment_time", "duration"]
+      relationships: ["belongs_to_patient", "belongs_to_provider"]
+
+    department:
+      required_fields: ["dept_id", "dept_name"]
+      optional_fields: ["manager_id", "cost_center"]
+      relationships: ["has_many_providers", "has_one_manager"]
+
+  # Standard Transformations
+  transformations:
+    name_standardization:
+      operations:
+        ["trim_whitespace", "proper_case", "remove_special_characters"]
+
+    phone_normalization:
+      operations:
+        ["remove_formatting", "validate_length", "add_country_code_if_missing"]
+
+    date_standardization:
+      operations:
+        ["convert_to_iso_format", "handle_timezone", "validate_date_range"]
+
+    email_standardization:
+      operations: ["lowercase", "trim_whitespace", "validate_format"]
+
+  # Sensitivity Classifications - Simplified
+  sensitivity_rules:
+    phi_high:
+      encryption_required: true
+      audit_logging: true
+      consent_tracking: true
+      access_restrictions: "role_based"
+
+    phi_limited:
+      encryption_required: false
+      audit_logging: true
+      consent_tracking: false
+      access_restrictions: "department_based"
+
+    confidential:
+      encryption_required: false
+      audit_logging: true
+      consent_tracking: false
+      access_restrictions: "manager_approval"
+
+    internal:
+      encryption_required: false
+      audit_logging: false
+      consent_tracking: false
+      access_restrictions: "employee_access"
+
+    public:
+      encryption_required: false
+      audit_logging: false
+      consent_tracking: false
+      access_restrictions: "none"
+
+  # Validation Rules - Centralized
+  validation_rules:
+    data_quality:
+      patient_data: ["patient_id_unique", "name_not_empty", "valid_date_format"]
+      provider_data: ["npi_10_digits", "provider_id_unique", "valid_specialty"]
+      appointment_data:
+        [
+          "future_appointment_date",
+          "valid_patient_reference",
+          "valid_provider_reference",
+        ]
+
+    business_rules:
+      referential_integrity: ["maintain_foreign_key_constraints"]
+      data_consistency: ["cross_table_validation"]
+      compliance: ["hipaa_requirements", "state_regulations"]

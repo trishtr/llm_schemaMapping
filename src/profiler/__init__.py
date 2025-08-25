@@ -77,7 +77,7 @@ from .incremental_manager import (
 
 # Data models and utilities
 from .schema_models import ColumnProfile, TableProfile, SchemaProfile
-from .pattern_recognizer import FieldPatternRecognizer
+from .simple_pattern_recognizer import SimplePatternRecognizer as FieldPatternRecognizer
 from .database_dialect import DatabaseDialect
 from .metadata_extractor import MetadataExtractor
 
