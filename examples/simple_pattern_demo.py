@@ -17,7 +17,33 @@ import json
 
 
 def create_simple_test_data():
-    """Create test data with obvious patterns."""
+    """Create test data with obvious patterns and relationship examples."""
+    
+    # Add a provider_id column with foreign key reference
+    provider_id_column = ColumnProfile(
+        name="provider_id",
+        data_type="int",
+        is_nullable=True,
+        is_foreign_key=True,
+        is_indexed=True,
+        sample_values=[1001, 1002, 1003, 1001, 1004],
+        detected_patterns=[],
+        foreign_key_reference={
+            "referenced_table": "providers",
+            "referenced_column": "provider_id",
+            "constraint_name": "fk_healthcare_provider"
+        }
+    )
+    
+    # Add a department_id column as potential FK candidate
+    department_id_column = ColumnProfile(
+        name="department_id",
+        data_type="int",
+        is_nullable=True,
+        is_indexed=True,
+        sample_values=[101, 102, 101, 103, 102],
+        detected_patterns=[]
+    )
     
     # Healthcare table with clear patterns
     columns = [
