@@ -1,0 +1,461 @@
+# Consolidated Healthcare Mapping Configuration
+# Single source of truth for healthcare data mapping and validation
+# Version: 2.0 | Last Updated: 2025-08-26
+
+healthcare_mapping_config:
+  version: "2.0"
+  description: "Consolidated configuration for healthcare schema mapping with pattern recognition and validation"
+
+  # Core Field Patterns - Primary matching logic
+  field_patterns:
+    # Healthcare Identifiers (Highest Priority)
+    patient_identifier:
+      field_names:
+        [
+          "patient_id",
+          "pt_id",
+          "mrn",
+          "medical_record_number",
+          "patient_key",
+          "patient_number",
+        ]
+      data_types: ["int", "varchar", "bigint", "text"]
+      sensitivity: "phi_high"
+      validation: ["unique", "non_null", "positive_integer"]
+      entity_type: "patient"
+      priority: 1
+
+    provider_identifier:
+      field_names:
+        [
+          "provider_id",
+          "prov_id",
+          "doctor_id",
+          "physician_id",
+          "provider_number",
+        ]
+      data_types: ["int", "varchar", "bigint"]
+      sensitivity: "phi_limited"
+      validation: ["unique", "non_null"]
+      entity_type: "provider"
+      priority: 1
+
+    npi_number:
+      field_names: ["npi", "npi_number", "national_provider_identifier"]
+      data_types: ["varchar", "char", "text"]
+      pattern: "^[0-9]{10}$"
+      sensitivity: "phi_limited"
+      validation: ["exactly_10_digits", "luhn_checksum"]
+      priority: 1
+
+    # Personal Information
+    person_name:
+      field_names:
+        [
+          "first_name",
+          "last_name",
+          "middle_name",
+          "fname",
+          "lname",
+          "given_name",
+          "surname",
+          "family_name",
+          "full_name",
+          "patient_name",
+        ]
+      data_types: ["varchar", "text", "char"]
+      sensitivity: "phi_high"
+      transformation: ["trim_whitespace", "proper_case", "remove_extra_spaces"]
+      validation: ["non_empty", "alpha_with_common_punctuation"]
+      priority: 1
+
+    contact_email:
+      field_names:
+        ["email", "email_address", "contact_email", "primary_email", "e_mail"]
+      data_types: ["varchar", "text"]
+      pattern: "^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$"
+      sensitivity: "phi_limited"
+      transformation: ["lowercase", "trim_whitespace"]
+      validation: ["valid_email_format"]
+      priority: 1
+
+    phone_number:
+      field_names:
+        [
+          "phone",
+          "telephone",
+          "phone_number",
+          "contact_phone",
+          "mobile",
+          "tel",
+          "home_phone",
+          "work_phone",
+        ]
+      data_types: ["varchar", "text", "char"]
+      sensitivity: "phi_limited"
+      transformation: ["normalize_phone_format", "remove_formatting"]
+      validation: ["valid_phone_length", "numeric_after_formatting"]
+      priority: 1
+
+    # Clinical Data
+    diagnosis_codes:
+      field_names:
+        [
+          "diagnosis_code",
+          "icd_code",
+          "primary_diagnosis",
+          "secondary_diagnosis",
+          "icd10_code",
+          "icd9_code",
+        ]
+      data_types: ["varchar", "text", "char"]
+      pattern: "^[A-Z][0-9]{2}(\\.[0-9A-Z]{1,4})?$"
+      sensitivity: "phi_high"
+      validation: ["valid_icd_format"]
+      priority: 2
+
+    procedure_codes:
+      field_names:
+        ["procedure_code", "cpt_code", "hcpcs_code", "procedure_description"]
+      data_types: ["varchar", "text", "char"]
+      sensitivity: "phi_high"
+      validation: ["valid_procedure_code_format"]
+      priority: 2
+
+    vital_signs:
+      field_names:
+        [
+          "blood_pressure",
+          "heart_rate",
+          "temperature",
+          "weight",
+          "height",
+          "vital_sign_value",
+          "bp_systolic",
+          "bp_diastolic",
+        ]
+      data_types: ["varchar", "decimal", "float", "numeric"]
+      sensitivity: "phi_high"
+      validation: ["numeric_range_check"]
+      priority: 2
+
+    # Financial Information
+    financial_amounts:
+      field_names:
+        [
+          "amount",
+          "cost",
+          "price",
+          "total_amount",
+          "copay",
+          "deductible",
+          "payment_amount",
+          "charge",
+          "balance",
+        ]
+      data_types: ["decimal", "float", "money", "numeric"]
+      sensitivity: "confidential"
+      validation: ["positive_amount", "currency_format"]
+      transformation: ["round_to_cents"]
+      priority: 2
+
+    insurance_data:
+      field_names:
+        [
+          "insurance_id",
+          "policy_number",
+          "member_id",
+          "group_number",
+          "plan_name",
+          "subscriber_id",
+        ]
+      data_types: ["varchar", "text", "char"]
+      sensitivity: "phi_high"
+      validation: ["non_empty_if_billing_record"]
+      priority: 2
+
+    # Temporal Fields
+    date_fields:
+      field_names:
+        [
+          "created_date",
+          "updated_date",
+          "admission_date",
+          "discharge_date",
+          "appointment_date",
+          "effective_date",
+          "birth_date",
+          "date_of_birth",
+        ]
+      data_types: ["date", "datetime", "timestamp"]
+      sensitivity: "phi_limited"
+      transformation: ["standardize_date_format", "validate_reasonable_range"]
+      validation: ["valid_date", "not_future_for_historical_events"]
+      priority: 3
+
+    timestamp_fields:
+      field_names:
+        [
+          "created_at",
+          "updated_at",
+          "last_modified",
+          "timestamp",
+          "modified_date",
+        ]
+      data_types: ["timestamp", "datetime"]
+      sensitivity: "internal"
+      default_value: "CURRENT_TIMESTAMP"
+      priority: 3
+
+    # Status and Operational
+    status_fields:
+      field_names:
+        [
+          "status",
+          "state",
+          "active",
+          "enabled",
+          "deleted",
+          "appointment_status",
+          "patient_status",
+          "record_status",
+        ]
+      data_types: ["varchar", "boolean", "char"]
+      sensitivity: "internal"
+      valid_values:
+        [
+          "active",
+          "inactive",
+          "pending",
+          "completed",
+          "cancelled",
+          "scheduled",
+          "in_progress",
+          "deleted",
+        ]
+      priority: 3
+
+    # Generic Identifiers (Lower Priority)
+    department_identifier:
+      field_names: ["dept_id", "department_id", "department_code", "dept_code"]
+      data_types: ["int", "varchar"]
+      sensitivity: "internal"
+      validation: ["unique", "non_null"]
+      priority: 4
+
+    generic_identifier:
+      field_names: ["id", "_id", "key", "number", "code"]
+      data_types: ["int", "varchar", "bigint"]
+      sensitivity: "internal"
+      validation: ["unique", "non_null"]
+      priority: 5
+
+  # Consolidated Validation Rules
+  validation_rules:
+    # Healthcare-Specific Validations
+    healthcare_identifiers:
+      npi_validation:
+        format: "exactly_10_digits"
+        algorithm: "luhn_checksum"
+        registry_check: "optional_nppes_lookup"
+
+      patient_id_validation:
+        rules: ["unique", "non_null", "stable_over_time"]
+
+      provider_id_validation:
+        rules: ["unique", "non_null", "reference_integrity"]
+
+    # Clinical Data Ranges
+    vital_signs_ranges:
+      systolic_bp:
+        {
+          min: 60,
+          max: 300,
+          units: "mmHg",
+          critical_low: 90,
+          critical_high: 180,
+        }
+      diastolic_bp:
+        {
+          min: 30,
+          max: 200,
+          units: "mmHg",
+          critical_low: 60,
+          critical_high: 110,
+        }
+      heart_rate: { min: 20, max: 250, units: "bpm", age_specific: true }
+      temperature:
+        {
+          min: 90.0,
+          max: 115.0,
+          units: "fahrenheit",
+          critical_low: 95.0,
+          critical_high: 104.0,
+        }
+      weight: { min: 0.5, max: 1000, units: "kg" }
+      height: { min: 10, max: 300, units: "cm" }
+
+    # Financial Validations
+    financial_rules:
+      charge_amounts:
+        { min: 0.01, max: 1000000.00, currency: "USD", decimal_places: 2 }
+      copay_amounts: { min: 0, max: 500, typical_range: "0-100" }
+
+    # Business Rules
+    business_rules:
+      referential_integrity: true
+      cross_table_validation: true
+      hipaa_compliance: true
+      data_consistency_checks: true
+
+  # Data Sensitivity Classification
+  sensitivity_levels:
+    phi_high:
+      description: "Direct identifiers and clinical data"
+      encryption_required: true
+      audit_logging: true
+      consent_tracking: true
+      access_restrictions: "role_based"
+      examples: ["names", "medical_record_numbers", "diagnosis_codes"]
+
+    phi_limited:
+      description: "Indirect identifiers"
+      encryption_required: false
+      audit_logging: true
+      consent_tracking: false
+      access_restrictions: "department_based"
+      examples: ["contact_info", "provider_ids", "appointment_dates"]
+
+    confidential:
+      description: "Financial and business data"
+      encryption_required: false
+      audit_logging: true
+      consent_tracking: false
+      access_restrictions: "manager_approval"
+      examples: ["financial_amounts", "insurance_data"]
+
+    internal:
+      description: "Operational data"
+      encryption_required: false
+      audit_logging: false
+      consent_tracking: false
+      access_restrictions: "employee_access"
+      examples: ["status_fields", "timestamps", "department_ids"]
+
+  # Technical Mapping Standards
+  technical_standards:
+    # Naming Conventions
+    naming_conventions:
+      database_objects: "snake_case" # patient_records, provider_id
+      application_objects: "PascalCase" # PatientRecord, ProviderService
+      constants: "SCREAMING_SNAKE_CASE" # MAX_RETRY_COUNT
+
+    # Pattern Matching Configuration
+    pattern_matching:
+      priority_order:
+        1: "exact_field_name_match"
+        2: "healthcare_specific_patterns"
+        3: "semantic_category_patterns"
+        4: "data_type_inference"
+        5: "generic_patterns"
+
+      confidence_thresholds:
+        high_confidence: 0.9 # Exact matches, known healthcare fields
+        medium_confidence: 0.7 # Pattern matches with context
+        low_confidence: 0.5 # Basic type inference
+
+      conflict_resolution:
+        multiple_matches: "select_highest_priority_and_confidence"
+        tie_breaking: "prefer_healthcare_specific"
+        no_matches: "apply_generic_type_inference"
+
+    # Data Quality Standards
+    data_quality_requirements:
+      primary_keys:
+        ["unique", "non_null", "stable", "prefer_surrogate_for_healthcare"]
+      foreign_keys:
+        [
+          "valid_references",
+          "referential_integrity",
+          "explicit_cascade_options",
+        ]
+      required_fields:
+        patient_entity: ["patient_id", "name"]
+        provider_entity: ["provider_id", "npi", "name"]
+        appointment_entity:
+          ["appointment_id", "patient_id", "provider_id", "date"]
+
+  # Transformation Rules
+  transformation_rules:
+    name_standardization:
+      operations:
+        [
+          "trim_whitespace",
+          "proper_case",
+          "handle_prefixes_mc_mac",
+          "remove_extra_spaces",
+        ]
+
+    phone_normalization:
+      operations:
+        [
+          "remove_formatting",
+          "validate_length",
+          "add_country_code_if_missing",
+          "standardize_format",
+        ]
+
+    date_standardization:
+      operations:
+        [
+          "convert_to_iso_format",
+          "handle_timezone",
+          "validate_reasonable_range",
+        ]
+
+    email_standardization:
+      operations: ["lowercase", "trim_whitespace", "validate_format"]
+
+  # Entity Relationship Guidelines
+  entity_relationships:
+    patient:
+      required_fields: ["patient_id", "name"]
+      common_relationships:
+        [
+          "has_many_appointments",
+          "has_many_diagnoses",
+          "belongs_to_primary_provider",
+        ]
+
+    provider:
+      required_fields: ["provider_id", "npi", "name"]
+      common_relationships:
+        ["has_many_patients", "belongs_to_department", "has_many_appointments"]
+
+    appointment:
+      required_fields: ["appointment_id", "patient_id", "provider_id", "date"]
+      common_relationships: ["belongs_to_patient", "belongs_to_provider"]
+
+    department:
+      required_fields: ["dept_id", "name"]
+      common_relationships: ["has_many_providers", "has_one_manager"]
+
+  # Error Handling
+  error_handling:
+    validation_failures:
+      critical_errors:
+        actions: ["reject_record", "alert_administrator"]
+        examples:
+          [
+            "invalid_patient_id",
+            "hipaa_violation",
+            "missing_required_phi_consent",
+          ]
+
+      warning_level_errors:
+        actions: ["flag_for_review", "log_warning"]
+        examples: ["missing_recommended_field", "value_outside_expected_range"]
+
+      informational_notices:
+        actions: ["log_for_monitoring"]
+        examples: ["unusual_but_valid_value", "legacy_format_detected"]
