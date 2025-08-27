@@ -1,0 +1,97 @@
+{
+  "table": "patients",
+  "total_columns": 6,
+  "view_type": "field_list",
+  "fields": [
+    {
+      "name": "patient_id",
+      "type": "bigint",
+      "nullable": false,
+      "key_type": "PK",
+      "patterns": [],
+      "null_pct": 0.0,
+      "unique_pct": 100.0,
+      "is_key": true,
+      "is_pattern_field": false,
+      "data_category": "integer",
+      "quality_score": 1.0
+    },
+    {
+      "name": "provider_id",
+      "type": "int",
+      "nullable": true,
+      "key_type": "FK",
+      "patterns": [],
+      "null_pct": 5.0,
+      "unique_pct": 3.0,
+      "is_key": true,
+      "is_pattern_field": false,
+      "data_category": "integer",
+      "quality_score": 0.6739999999999999
+    },
+    {
+      "name": "email_address",
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "email_address"
+      ],
+      "null_pct": 10.0,
+      "unique_pct": 90.0,
+      "is_key": false,
+      "is_pattern_field": true,
+      "data_category": "text",
+      "quality_score": 0.9299999999999999
+    },
+    {
+      "name": "phone_number",
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "phone_number"
+      ],
+      "null_pct": 15.0,
+      "unique_pct": 84.0,
+      "is_key": false,
+      "is_pattern_field": true,
+      "data_category": "text",
+      "quality_score": 0.895
+    },
+    {
+      "name": "status",
+      "type": "varchar",
+      "nullable": false,
+      "key_type": null,
+      "patterns": [
+        "status_field"
+      ],
+      "null_pct": 0.0,
+      "unique_pct": 0.01,
+      "is_key": false,
+      "is_pattern_field": true,
+      "data_category": "text",
+      "quality_score": 0.7002999999999999
+    },
+    {
+      "name": "birth_date",
+      "type": "date",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [],
+      "null_pct": 2.0,
+      "unique_pct": 95.0,
+      "is_key": false,
+      "is_pattern_field": false,
+      "data_category": "temporal",
+      "quality_score": 1.1059999999999999
+    }
+  ],
+  "summary": {
+    "key_fields": 2,
+    "pattern_fields": 3,
+    "nullable_fields": 4,
+    "avg_quality_score": 0.8842166666666667
+  }
+}

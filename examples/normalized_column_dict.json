@@ -1,0 +1,95 @@
+{
+  "table": "patients",
+  "view_type": "column_dict",
+  "columns": {
+    "patient_id": {
+      "type": "bigint",
+      "nullable": false,
+      "key_type": "PK",
+      "patterns": [],
+      "data_category": "integer",
+      "quality_score": 1.0,
+      "statistics": {
+        "null_pct": 0.0,
+        "unique_pct": 100.0
+      }
+    },
+    "provider_id": {
+      "type": "int",
+      "nullable": true,
+      "key_type": "FK",
+      "patterns": [],
+      "data_category": "integer",
+      "quality_score": 0.6739999999999999,
+      "statistics": {
+        "null_pct": 5.0,
+        "unique_pct": 3.0
+      }
+    },
+    "email_address": {
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "email_address"
+      ],
+      "data_category": "text",
+      "quality_score": 0.9299999999999999,
+      "statistics": {
+        "null_pct": 10.0,
+        "unique_pct": 90.0
+      }
+    },
+    "phone_number": {
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "phone_number"
+      ],
+      "data_category": "text",
+      "quality_score": 0.895,
+      "statistics": {
+        "null_pct": 15.0,
+        "unique_pct": 84.0
+      }
+    },
+    "status": {
+      "type": "varchar",
+      "nullable": false,
+      "key_type": null,
+      "patterns": [
+        "status_field"
+      ],
+      "data_category": "text",
+      "quality_score": 0.7002999999999999,
+      "statistics": {
+        "null_pct": 0.0,
+        "unique_pct": 0.01
+      }
+    },
+    "birth_date": {
+      "type": "date",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [],
+      "data_category": "temporal",
+      "quality_score": 1.1059999999999999,
+      "statistics": {
+        "null_pct": 2.0,
+        "unique_pct": 95.0
+      }
+    }
+  },
+  "metadata": {
+    "total_columns": 6,
+    "column_names": [
+      "patient_id",
+      "provider_id",
+      "email_address",
+      "phone_number",
+      "status",
+      "birth_date"
+    ]
+  }
+}

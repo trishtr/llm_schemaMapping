@@ -1,0 +1,55 @@
+{
+  "table": "patients",
+  "view_type": "pattern_groups",
+  "pattern_groups": {
+    "email_address": [
+      {
+        "name": "email_address",
+        "type": "varchar",
+        "key_type": null,
+        "quality_score": 0.9299999999999999
+      }
+    ],
+    "phone_number": [
+      {
+        "name": "phone_number",
+        "type": "varchar",
+        "key_type": null,
+        "quality_score": 0.895
+      }
+    ],
+    "status_field": [
+      {
+        "name": "status",
+        "type": "varchar",
+        "key_type": null,
+        "quality_score": 0.7002999999999999
+      }
+    ]
+  },
+  "no_pattern_fields": [
+    {
+      "name": "patient_id",
+      "type": "bigint",
+      "key_type": "PK",
+      "quality_score": 1.0
+    },
+    {
+      "name": "provider_id",
+      "type": "int",
+      "key_type": "FK",
+      "quality_score": 0.6739999999999999
+    },
+    {
+      "name": "birth_date",
+      "type": "date",
+      "key_type": null,
+      "quality_score": 1.1059999999999999
+    }
+  ],
+  "summary": {
+    "total_patterns": 3,
+    "fields_with_patterns": 3,
+    "fields_without_patterns": 3
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "table": "patients",
+  "view_type": "llm_optimized",
+  "fields": [
+    "patient_id:bigint NOT NULL PK",
+    "provider_id:int FK",
+    "email_address:varchar [email_address]",
+    "phone_number:varchar [phone_number]",
+    "status:varchar NOT NULL [status_field]",
+    "birth_date:date"
+  ],
+  "keys": ["patient_id", "provider_id"],
+  "patterns": [
+    {
+      "field": "email_address",
+      "patterns": ["email_address"]
+    },
+    {
+      "field": "phone_number",
+      "patterns": ["phone_number"]
+    },
+    {
+      "field": "status",
+      "patterns": ["status_field"]
+    }
+  ],
+  "stats": {
+    "total": 6,
+    "keys": 2,
+    "patterns": 3
+  }
+}
