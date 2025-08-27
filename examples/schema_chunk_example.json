@@ -1,0 +1,227 @@
+{
+  "database_name": "enterprise_healthcare_db",
+  "schema_name": "public",
+  "database_type": "postgresql",
+  "chunk_info": {
+    "chunk_number": 1,
+    "total_chunks": 2,
+    "tables_in_chunk": 2,
+    "table_names": [
+      "patients",
+      "providers"
+    ]
+  },
+  "tables": [
+    {
+      "name": "patients",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": null,
+      "estimated_row_count": 50000,
+      "total_columns": 4,
+      "columns": [
+        {
+          "name": "patient_id",
+          "data_type": "bigint",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            100001,
+            100002,
+            100003,
+            100004,
+            100005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1001,
+            1004
+          ],
+          "foreign_key_reference": {
+            "referenced_table": "providers",
+            "referenced_column": "provider_id",
+            "constraint_name": "fk_patients_provider"
+          }
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [
+            "email_address"
+          ],
+          "sample_values": [
+            "john@example.com",
+            "jane@test.org",
+            "bob@clinic.net"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "phone",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 4,
+          "detected_patterns": [
+            "phone_number"
+          ],
+          "sample_values": [
+            "555-123-4567",
+            "555-987-6543",
+            "555-456-7890"
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "patient_id"
+      ],
+      "foreign_keys": [
+        {
+          "column_name": "provider_id",
+          "referenced_table": "providers",
+          "referenced_column": "provider_id",
+          "constraint_name": "fk_patients_provider"
+        }
+      ],
+      "indexes": [],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": []
+    },
+    {
+      "name": "providers",
+      "schema": "public",
+      "table_type": "BASE TABLE",
+      "table_comment": null,
+      "estimated_row_count": 1500,
+      "total_columns": 3,
+      "columns": [
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 1,
+          "detected_patterns": [],
+          "sample_values": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "npi",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": true,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 2,
+          "detected_patterns": [
+            "npi_identifier"
+          ],
+          "sample_values": [
+            "1234567890",
+            "9876543210",
+            "5555666677"
+          ],
+          "foreign_key_reference": null
+        },
+        {
+          "name": "department_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "is_unique": false,
+          "is_indexed": false,
+          "max_length": null,
+          "default_value": null,
+          "column_comment": null,
+          "ordinal_position": 3,
+          "detected_patterns": [],
+          "sample_values": [
+            101,
+            102,
+            103,
+            101,
+            104
+          ],
+          "foreign_key_reference": null
+        }
+      ],
+      "primary_keys": [
+        "provider_id"
+      ],
+      "foreign_keys": [],
+      "indexes": [],
+      "sample_data": [],
+      "self_referencing_columns": [],
+      "potential_fk_candidates": []
+    }
+  ],
+  "cross_table_relationships": [
+    {
+      "type": "foreign_key",
+      "from_table": "patients",
+      "from_column": "provider_id",
+      "to_table": "providers",
+      "to_column": "provider_id",
+      "constraint_name": "fk_patients_provider"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "database_name": "enterprise_healthcare_db",
+  "database_type": "postgresql",
+  "total_tables": 4,
+  "total_columns": 13,
+  "tables": [
+    {
+      "name": "patients",
+      "estimated_row_count": 50000,
+      "total_columns": 4,
+      "columns": [
+        {
+          "name": "patient_id",
+          "data_type": "bigint",
+          "is_nullable": false,
+          "ordinal_position": 1
+        },
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "ordinal_position": 2
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "ordinal_position": 3
+        },
+        {
+          "name": "phone",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "ordinal_position": 4
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "estimated_row_count": 1500,
+      "total_columns": 3,
+      "columns": [
+        {
+          "name": "provider_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "ordinal_position": 1
+        },
+        {
+          "name": "npi",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "ordinal_position": 2
+        },
+        {
+          "name": "department_id",
+          "data_type": "int",
+          "is_nullable": true,
+          "ordinal_position": 3
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "estimated_row_count": 25000,
+      "total_columns": 3,
+      "columns": [
+        {
+          "name": "user_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "ordinal_position": 1
+        },
+        {
+          "name": "username",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "ordinal_position": 2
+        },
+        {
+          "name": "email",
+          "data_type": "varchar",
+          "is_nullable": true,
+          "ordinal_position": 3
+        }
+      ]
+    },
+    {
+      "name": "sys_config",
+      "estimated_row_count": 500,
+      "total_columns": 3,
+      "columns": [
+        {
+          "name": "config_id",
+          "data_type": "int",
+          "is_nullable": false,
+          "ordinal_position": 1
+        },
+        {
+          "name": "config_key",
+          "data_type": "varchar",
+          "is_nullable": false,
+          "ordinal_position": 2
+        },
+        {
+          "name": "config_value",
+          "data_type": "text",
+          "is_nullable": true,
+          "ordinal_position": 3
+        }
+      ]
+    }
+  ]
+}

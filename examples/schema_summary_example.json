@@ -1,0 +1,57 @@
+{
+  "database_overview": {
+    "database_name": "enterprise_healthcare_db",
+    "database_type": "postgresql",
+    "total_tables": 4,
+    "total_columns": 13,
+    "profiling_timestamp": "2025-08-21T17:15:00"
+  },
+  "table_summary": [
+    {
+      "name": "patients",
+      "row_count": 50000,
+      "column_count": 4,
+      "has_primary_key": true,
+      "has_foreign_keys": true,
+      "detected_patterns_count": 2,
+      "business_domain": "healthcare"
+    },
+    {
+      "name": "providers",
+      "row_count": 1500,
+      "column_count": 3,
+      "has_primary_key": true,
+      "has_foreign_keys": false,
+      "detected_patterns_count": 1,
+      "business_domain": "healthcare"
+    },
+    {
+      "name": "users",
+      "row_count": 25000,
+      "column_count": 3,
+      "has_primary_key": true,
+      "has_foreign_keys": false,
+      "detected_patterns_count": 1,
+      "business_domain": "user_management"
+    },
+    {
+      "name": "sys_config",
+      "row_count": 500,
+      "column_count": 3,
+      "has_primary_key": true,
+      "has_foreign_keys": false,
+      "detected_patterns_count": 0,
+      "business_domain": "system"
+    }
+  ],
+  "relationship_summary": {
+    "total_foreign_keys": 1,
+    "total_potential_relationships": 1,
+    "self_referencing_tables": 0
+  },
+  "pattern_summary": {
+    "email_address": 2,
+    "phone_number": 1,
+    "npi_identifier": 1
+  }
+}

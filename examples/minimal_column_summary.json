@@ -1,0 +1,57 @@
+{
+  "table": "patients",
+  "total_columns": 5,
+  "columns": [
+    {
+      "name": "patient_id",
+      "type": "bigint",
+      "nullable": false,
+      "key_type": "PK",
+      "patterns": [],
+      "null_pct": 0.0,
+      "unique_pct": 100.0
+    },
+    {
+      "name": "provider_id",
+      "type": "int",
+      "nullable": true,
+      "key_type": "FK",
+      "patterns": [],
+      "null_pct": 5.0,
+      "unique_pct": 3.0
+    },
+    {
+      "name": "email_address",
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "email_address"
+      ],
+      "null_pct": 10.0,
+      "unique_pct": 90.0
+    },
+    {
+      "name": "phone_number",
+      "type": "varchar",
+      "nullable": true,
+      "key_type": null,
+      "patterns": [
+        "phone_number"
+      ],
+      "null_pct": 15.0,
+      "unique_pct": 84.0
+    },
+    {
+      "name": "status",
+      "type": "varchar",
+      "nullable": false,
+      "key_type": null,
+      "patterns": [
+        "status_field"
+      ],
+      "null_pct": 0.0,
+      "unique_pct": 0.01
+    }
+  ]
+}
