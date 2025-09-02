@@ -1,0 +1,195 @@
+{
+  "entity_types": {
+    "healthcare_entities": {
+      "patient_entity": {
+        "type": "PATIENT",
+        "description": "Patient or individual receiving healthcare services",
+        "field_indicators": ["patient", "pt", "individual", "person"],
+        "data_characteristics": {
+          "typically_primary_key": true,
+          "usually_numeric": true,
+          "high_uniqueness": true,
+          "low_nullability": true
+        },
+        "semantic_tags": ["healthcare", "person", "identifier", "medical"],
+        "related_entities": ["provider", "appointment", "medical_record"]
+      },
+      "provider_entity": {
+        "type": "HEALTHCARE_PROVIDER",
+        "description": "Healthcare professional or provider organization",
+        "field_indicators": [
+          "provider",
+          "physician",
+          "doctor",
+          "practitioner",
+          "npi"
+        ],
+        "data_characteristics": {
+          "often_foreign_key": true,
+          "moderate_uniqueness": true,
+          "regulatory_identifier": true
+        },
+        "semantic_tags": [
+          "healthcare",
+          "professional",
+          "identifier",
+          "medical"
+        ],
+        "related_entities": ["patient", "department", "appointment"]
+      },
+      "department_entity": {
+        "type": "DEPARTMENT",
+        "description": "Organizational department or unit within healthcare facility",
+        "field_indicators": ["department", "dept", "division", "unit", "ward"],
+        "data_characteristics": {
+          "often_foreign_key": true,
+          "low_uniqueness": true,
+          "organizational_structure": true
+        },
+        "semantic_tags": ["healthcare", "organization", "structure", "unit"],
+        "related_entities": ["provider", "patient", "facility"]
+      }
+    },
+    "contact_entities": {
+      "email_entity": {
+        "type": "EMAIL_ADDRESS",
+        "description": "Electronic mail address for communication",
+        "field_indicators": ["email", "mail", "electronic"],
+        "data_characteristics": {
+          "text_format": true,
+          "high_uniqueness": true,
+          "pattern_based": true,
+          "communication_medium": true
+        },
+        "semantic_tags": ["contact", "communication", "electronic", "address"],
+        "related_entities": ["person", "organization", "account"]
+      },
+      "phone_entity": {
+        "type": "PHONE_NUMBER",
+        "description": "Telephone number for voice communication",
+        "field_indicators": ["phone", "telephone", "mobile", "cell"],
+        "data_characteristics": {
+          "formatted_text": true,
+          "moderate_uniqueness": true,
+          "pattern_based": true,
+          "communication_medium": true
+        },
+        "semantic_tags": ["contact", "communication", "telephone", "number"],
+        "related_entities": ["person", "organization", "emergency_contact"]
+      }
+    },
+    "identifier_entities": {
+      "primary_key_entity": {
+        "type": "PRIMARY_IDENTIFIER",
+        "description": "Primary key or main identifier for database records",
+        "field_indicators": ["id", "key", "pk", "primary"],
+        "data_characteristics": {
+          "unique_constraint": true,
+          "not_nullable": true,
+          "indexed": true,
+          "auto_increment": true
+        },
+        "semantic_tags": ["identifier", "primary", "unique", "key"],
+        "related_entities": ["record", "entity", "table"]
+      },
+      "foreign_key_entity": {
+        "type": "FOREIGN_IDENTIFIER",
+        "description": "Foreign key referencing another table's primary key",
+        "field_indicators": ["_id", "ref", "fk", "foreign"],
+        "data_characteristics": {
+          "references_other_table": true,
+          "often_indexed": true,
+          "relationship_field": true
+        },
+        "semantic_tags": ["identifier", "foreign", "reference", "relationship"],
+        "related_entities": ["primary_key", "relationship", "join"]
+      },
+      "natural_key_entity": {
+        "type": "NATURAL_IDENTIFIER",
+        "description": "Natural business identifier with real-world meaning",
+        "field_indicators": ["code", "number", "ssn", "npi", "license"],
+        "data_characteristics": {
+          "business_meaning": true,
+          "external_system": true,
+          "regulatory_compliance": true
+        },
+        "semantic_tags": ["identifier", "natural", "business", "external"],
+        "related_entities": [
+          "regulation",
+          "external_system",
+          "business_process"
+        ]
+      }
+    },
+    "temporal_entities": {
+      "creation_time_entity": {
+        "type": "CREATION_TIMESTAMP",
+        "description": "Date/time when record was created",
+        "field_indicators": ["created", "insert", "added", "registered"],
+        "data_characteristics": {
+          "temporal_data": true,
+          "audit_field": true,
+          "system_generated": true
+        },
+        "semantic_tags": ["temporal", "creation", "audit", "system"],
+        "related_entities": ["audit_trail", "system_log", "record_history"]
+      },
+      "birth_date_entity": {
+        "type": "BIRTH_DATE",
+        "description": "Date of birth for individuals",
+        "field_indicators": ["birth", "dob", "born", "birthday"],
+        "data_characteristics": {
+          "personal_data": true,
+          "sensitive_information": true,
+          "date_format": true
+        },
+        "semantic_tags": ["temporal", "personal", "birth", "demographic"],
+        "related_entities": ["person", "demographics", "age_calculation"]
+      }
+    },
+    "status_entities": {
+      "record_status_entity": {
+        "type": "RECORD_STATUS",
+        "description": "Current status or state of a record",
+        "field_indicators": ["status", "state", "active", "enabled"],
+        "data_characteristics": {
+          "enumerated_values": true,
+          "business_logic": true,
+          "workflow_state": true
+        },
+        "semantic_tags": ["status", "state", "workflow", "business"],
+        "related_entities": ["workflow", "business_process", "state_machine"]
+      }
+    }
+  },
+  "entity_classification_rules": {
+    "primary_classification": {
+      "use_field_name": true,
+      "use_data_type": true,
+      "use_key_properties": true,
+      "use_detected_patterns": true
+    },
+    "secondary_classification": {
+      "use_table_context": true,
+      "use_schema_context": true,
+      "use_data_statistics": true
+    },
+    "confidence_thresholds": {
+      "high_confidence": 0.8,
+      "medium_confidence": 0.6,
+      "low_confidence": 0.4
+    },
+    "conflict_resolution": {
+      "prefer_specific_over_general": true,
+      "prefer_domain_specific": true,
+      "use_highest_confidence": true
+    }
+  },
+  "enrichment_metadata": {
+    "version": "1.0",
+    "domain_focus": "healthcare",
+    "last_updated": "2025-08-27",
+    "supported_databases": ["postgresql", "mysql", "mssql"],
+    "configuration_purpose": "Entity type classification for column enrichment"
+  }
+}

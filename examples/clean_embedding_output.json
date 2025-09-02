@@ -1,0 +1,172 @@
+{
+  "table": "patients",
+  "columns": [
+    {
+      "table_name": "patients",
+      "column_name": "patient_id",
+      "data_type": "bigint",
+      "is_nullable": false,
+      "key_type": "PK",
+      "full_identifier": "patients.patient_id",
+      "key_phrases": [
+        "patient identifier",
+        "medical record number",
+        "patient ID",
+        "healthcare ID",
+        "patient reference"
+      ],
+      "key_phrases_text": "patient identifier | medical record number | patient ID | healthcare ID | patient reference",
+      "entity_type": "PATIENT",
+      "entity_confidence": 1.0,
+      "semantic_tags": [
+        "healthcare",
+        "person",
+        "identifier",
+        "medical"
+      ],
+      "semantic_tags_text": "healthcare | person | identifier | medical",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": true
+    },
+    {
+      "table_name": "patients",
+      "column_name": "provider_id",
+      "data_type": "int",
+      "is_nullable": true,
+      "key_type": "FK",
+      "full_identifier": "patients.provider_id",
+      "key_phrases": [
+        "provider identifier",
+        "NPI number",
+        "healthcare provider",
+        "medical provider",
+        "physician ID"
+      ],
+      "key_phrases_text": "provider identifier | NPI number | healthcare provider | medical provider | physician ID",
+      "entity_type": "HEALTHCARE_PROVIDER",
+      "entity_confidence": 1.0,
+      "semantic_tags": [
+        "healthcare",
+        "professional",
+        "identifier",
+        "medical"
+      ],
+      "semantic_tags_text": "healthcare | professional | identifier | medical",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": true
+    },
+    {
+      "table_name": "patients",
+      "column_name": "email_address",
+      "data_type": "varchar",
+      "is_nullable": true,
+      "key_type": "none",
+      "full_identifier": "patients.email_address",
+      "key_phrases": [
+        "email address",
+        "contact email",
+        "electronic mail",
+        "email communication"
+      ],
+      "key_phrases_text": "email address | contact email | electronic mail | email communication",
+      "entity_type": "EMAIL_ADDRESS",
+      "entity_confidence": 0.8,
+      "semantic_tags": [
+        "contact",
+        "communication",
+        "electronic",
+        "address"
+      ],
+      "semantic_tags_text": "contact | communication | electronic | address",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": false
+    },
+    {
+      "table_name": "patients",
+      "column_name": "phone_number",
+      "data_type": "varchar",
+      "is_nullable": true,
+      "key_type": "none",
+      "full_identifier": "patients.phone_number",
+      "key_phrases": [
+        "phone number",
+        "telephone",
+        "contact number",
+        "mobile phone",
+        "landline"
+      ],
+      "key_phrases_text": "phone number | telephone | contact number | mobile phone | landline",
+      "entity_type": "PHONE_NUMBER",
+      "entity_confidence": 0.6,
+      "semantic_tags": [
+        "contact",
+        "communication",
+        "telephone",
+        "number"
+      ],
+      "semantic_tags_text": "contact | communication | telephone | number",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": false
+    },
+    {
+      "table_name": "patients",
+      "column_name": "status",
+      "data_type": "varchar",
+      "is_nullable": false,
+      "key_type": "none",
+      "full_identifier": "patients.status",
+      "key_phrases": [
+        "status indicator",
+        "record status",
+        "active status",
+        "patient status",
+        "enrollment status"
+      ],
+      "key_phrases_text": "status indicator | record status | active status | patient status | enrollment status",
+      "entity_type": "RECORD_STATUS",
+      "entity_confidence": 0.6,
+      "semantic_tags": [
+        "status",
+        "state",
+        "workflow",
+        "business"
+      ],
+      "semantic_tags_text": "status | state | workflow | business",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": false
+    },
+    {
+      "table_name": "patients",
+      "column_name": "birth_date",
+      "data_type": "date",
+      "is_nullable": true,
+      "key_type": "none",
+      "full_identifier": "patients.birth_date",
+      "key_phrases": [
+        "birth date",
+        "date of birth",
+        "birth information",
+        "age data",
+        "created date"
+      ],
+      "key_phrases_text": "birth date | date of birth | birth information | age data | created date",
+      "entity_type": "BIRTH_DATE",
+      "entity_confidence": 0.6,
+      "semantic_tags": [
+        "temporal",
+        "personal",
+        "birth",
+        "demographic"
+      ],
+      "semantic_tags_text": "temporal | personal | birth | demographic",
+      "has_key_phrases": true,
+      "has_entity_type": true,
+      "is_key_field": false
+    }
+  ]
+}

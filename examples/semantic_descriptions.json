@@ -1,0 +1,35 @@
+{
+  "table": "patients",
+  "descriptions": [
+    {
+      "field_id": "patients.patient_id",
+      "semantic_description": "Database field patient_id (bigint) - PK. Entity: patient. Concepts: patient identifier, medical record number, patient ID. Context: healthcare, person, identifier, medical.",
+      "entity_type": "PATIENT"
+    },
+    {
+      "field_id": "patients.provider_id",
+      "semantic_description": "Database field provider_id (int) - FK. Entity: healthcare provider. Concepts: provider identifier, NPI number, healthcare provider. Context: healthcare, professional, identifier, medical.",
+      "entity_type": "HEALTHCARE_PROVIDER"
+    },
+    {
+      "field_id": "patients.email_address",
+      "semantic_description": "Database field email_address (varchar). Entity: email address. Concepts: email address, contact email, electronic mail. Context: contact, communication, electronic, address.",
+      "entity_type": "EMAIL_ADDRESS"
+    },
+    {
+      "field_id": "patients.phone_number",
+      "semantic_description": "Database field phone_number (varchar). Entity: phone number. Concepts: phone number, telephone, contact number. Context: contact, communication, telephone, number.",
+      "entity_type": "PHONE_NUMBER"
+    },
+    {
+      "field_id": "patients.status",
+      "semantic_description": "Database field status (varchar). Entity: record status. Concepts: status indicator, record status, active status. Context: status, state, workflow, business.",
+      "entity_type": "RECORD_STATUS"
+    },
+    {
+      "field_id": "patients.birth_date",
+      "semantic_description": "Database field birth_date (date). Entity: birth date. Concepts: birth date, date of birth, birth information. Context: temporal, personal, birth, demographic.",
+      "entity_type": "BIRTH_DATE"
+    }
+  ]
+}

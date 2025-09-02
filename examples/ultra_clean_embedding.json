@@ -1,0 +1,119 @@
+{
+  "table": "patients",
+  "fields": [
+    {
+      "id": "patients.patient_id",
+      "name": "patient_id",
+      "type": "bigint",
+      "nullable": false,
+      "key": "PK",
+      "entity": "PATIENT",
+      "phrases": [
+        "patient identifier",
+        "medical record number",
+        "patient ID"
+      ],
+      "tags": [
+        "healthcare",
+        "person",
+        "identifier"
+      ],
+      "confidence": 1.0
+    },
+    {
+      "id": "patients.provider_id",
+      "name": "provider_id",
+      "type": "int",
+      "nullable": true,
+      "key": "FK",
+      "entity": "HEALTHCARE_PROVIDER",
+      "phrases": [
+        "provider identifier",
+        "NPI number",
+        "healthcare provider"
+      ],
+      "tags": [
+        "healthcare",
+        "professional",
+        "identifier"
+      ],
+      "confidence": 1.0
+    },
+    {
+      "id": "patients.email_address",
+      "name": "email_address",
+      "type": "varchar",
+      "nullable": true,
+      "key": "none",
+      "entity": "EMAIL_ADDRESS",
+      "phrases": [
+        "email address",
+        "contact email",
+        "electronic mail"
+      ],
+      "tags": [
+        "contact",
+        "communication",
+        "electronic"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "patients.phone_number",
+      "name": "phone_number",
+      "type": "varchar",
+      "nullable": true,
+      "key": "none",
+      "entity": "PHONE_NUMBER",
+      "phrases": [
+        "phone number",
+        "telephone",
+        "contact number"
+      ],
+      "tags": [
+        "contact",
+        "communication",
+        "telephone"
+      ],
+      "confidence": 0.6
+    },
+    {
+      "id": "patients.status",
+      "name": "status",
+      "type": "varchar",
+      "nullable": false,
+      "key": "none",
+      "entity": "RECORD_STATUS",
+      "phrases": [
+        "status indicator",
+        "record status",
+        "active status"
+      ],
+      "tags": [
+        "status",
+        "state",
+        "workflow"
+      ],
+      "confidence": 0.6
+    },
+    {
+      "id": "patients.birth_date",
+      "name": "birth_date",
+      "type": "date",
+      "nullable": true,
+      "key": "none",
+      "entity": "BIRTH_DATE",
+      "phrases": [
+        "birth date",
+        "date of birth",
+        "birth information"
+      ],
+      "tags": [
+        "temporal",
+        "personal",
+        "birth"
+      ],
+      "confidence": 0.6
+    }
+  ]
+}

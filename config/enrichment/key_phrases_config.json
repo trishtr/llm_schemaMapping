@@ -1,0 +1,251 @@
+{
+  "key_phrase_extraction_rules": {
+    "healthcare_domain": {
+      "patient_identifiers": {
+        "key_phrases": [
+          "patient identifier",
+          "medical record number",
+          "patient ID",
+          "healthcare ID",
+          "patient reference",
+          "medical identifier",
+          "patient key",
+          "health record ID"
+        ],
+        "field_name_patterns": [
+          "patient",
+          "mrn",
+          "medical_record",
+          "health_id",
+          "pt_id"
+        ],
+        "data_type_patterns": ["bigint", "int", "varchar"],
+        "context_keywords": ["patient", "medical", "healthcare", "hospital"]
+      },
+      "provider_identifiers": {
+        "key_phrases": [
+          "provider identifier",
+          "NPI number",
+          "healthcare provider",
+          "medical provider",
+          "physician ID",
+          "doctor identifier",
+          "practitioner ID",
+          "provider reference"
+        ],
+        "field_name_patterns": [
+          "provider",
+          "npi",
+          "physician",
+          "doctor",
+          "practitioner"
+        ],
+        "data_type_patterns": ["int", "varchar", "char"],
+        "context_keywords": [
+          "provider",
+          "physician",
+          "doctor",
+          "practitioner",
+          "npi"
+        ]
+      },
+      "email_contact": {
+        "key_phrases": [
+          "email address",
+          "contact email",
+          "electronic mail",
+          "email communication"
+        ],
+        "field_name_patterns": ["email", "mail"],
+        "data_type_patterns": ["varchar", "text", "char"],
+        "context_keywords": ["email", "mail", "electronic"]
+      },
+      "phone_contact": {
+        "key_phrases": [
+          "phone number",
+          "telephone",
+          "contact number",
+          "mobile phone",
+          "landline"
+        ],
+        "field_name_patterns": ["phone", "telephone", "mobile", "cell"],
+        "data_type_patterns": ["varchar", "text", "char"],
+        "context_keywords": ["phone", "telephone", "mobile", "call"]
+      },
+      "status_indicators": {
+        "key_phrases": [
+          "status indicator",
+          "record status",
+          "active status",
+          "patient status",
+          "enrollment status",
+          "account status",
+          "current state",
+          "processing status"
+        ],
+        "field_name_patterns": [
+          "status",
+          "state",
+          "active",
+          "enabled",
+          "current"
+        ],
+        "data_type_patterns": ["varchar", "char", "enum"],
+        "context_keywords": ["status", "state", "active", "current", "enabled"]
+      },
+      "temporal_data": {
+        "key_phrases": [
+          "birth date",
+          "date of birth",
+          "birth information",
+          "age data",
+          "created date",
+          "registration date",
+          "enrollment date",
+          "timestamp"
+        ],
+        "field_name_patterns": [
+          "birth",
+          "dob",
+          "created",
+          "date",
+          "time",
+          "timestamp"
+        ],
+        "data_type_patterns": ["date", "datetime", "timestamp"],
+        "context_keywords": [
+          "birth",
+          "created",
+          "registered",
+          "enrolled",
+          "time"
+        ]
+      },
+      "department_organization": {
+        "key_phrases": [
+          "department identifier",
+          "organizational unit",
+          "department code",
+          "division ID",
+          "unit identifier",
+          "department reference",
+          "org structure"
+        ],
+        "field_name_patterns": [
+          "department",
+          "dept",
+          "division",
+          "unit",
+          "org"
+        ],
+        "data_type_patterns": ["int", "varchar", "char"],
+        "context_keywords": [
+          "department",
+          "division",
+          "unit",
+          "organization",
+          "structure"
+        ]
+      }
+    },
+    "general_domain": {
+      "primary_keys": {
+        "key_phrases": [
+          "primary key",
+          "unique identifier",
+          "record ID",
+          "entity identifier",
+          "main key",
+          "primary reference",
+          "unique key",
+          "row identifier"
+        ],
+        "field_name_patterns": ["id", "key", "pk", "primary"],
+        "data_type_patterns": ["int", "bigint", "varchar", "uuid"],
+        "context_keywords": ["primary", "unique", "identifier", "key"]
+      },
+      "foreign_keys": {
+        "key_phrases": [
+          "foreign key",
+          "reference key",
+          "relationship identifier",
+          "linked identifier",
+          "external reference",
+          "foreign reference",
+          "relationship key",
+          "join key"
+        ],
+        "field_name_patterns": ["_id", "ref", "fk", "foreign"],
+        "data_type_patterns": ["int", "bigint", "varchar"],
+        "context_keywords": ["foreign", "reference", "relationship", "linked"]
+      },
+      "text_fields": {
+        "key_phrases": [
+          "text data",
+          "string information",
+          "textual content",
+          "character data",
+          "description field",
+          "name field",
+          "label data",
+          "text attribute"
+        ],
+        "field_name_patterns": [
+          "name",
+          "title",
+          "description",
+          "text",
+          "label"
+        ],
+        "data_type_patterns": ["varchar", "text", "char", "string"],
+        "context_keywords": ["name", "title", "description", "text", "label"]
+      },
+      "numeric_fields": {
+        "key_phrases": [
+          "numeric data",
+          "integer value",
+          "numeric identifier",
+          "count data",
+          "amount field",
+          "quantity data",
+          "numeric attribute",
+          "measurement"
+        ],
+        "field_name_patterns": [
+          "count",
+          "amount",
+          "quantity",
+          "number",
+          "value"
+        ],
+        "data_type_patterns": ["int", "bigint", "decimal", "numeric", "float"],
+        "context_keywords": ["count", "amount", "quantity", "number", "value"]
+      }
+    }
+  },
+  "extraction_strategies": {
+    "field_name_based": {
+      "weight": 0.4,
+      "description": "Extract key phrases based on field name patterns"
+    },
+    "data_type_based": {
+      "weight": 0.3,
+      "description": "Extract key phrases based on data type patterns"
+    },
+    "context_based": {
+      "weight": 0.2,
+      "description": "Extract key phrases based on table/schema context"
+    },
+    "pattern_based": {
+      "weight": 0.1,
+      "description": "Extract key phrases based on detected patterns"
+    }
+  },
+  "phrase_selection_rules": {
+    "max_phrases_per_field": 5,
+    "min_relevance_score": 0.6,
+    "prefer_specific_over_general": true,
+    "include_domain_context": true,
+    "deduplicate_similar_phrases": true
+  }
+}
